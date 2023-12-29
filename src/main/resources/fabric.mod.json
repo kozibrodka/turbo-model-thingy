@@ -4,17 +4,17 @@
   "version": "${version}",
 
   "name": "Turbo Model Thingy",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Originally made by jamioflan & garycxjk. Use 173 for Beta version and 125 for Release version",
   "authors": [
-    "Me!"
+    "kozibrodka"
   ],
   "contact": {
     "homepage": "https://glass-launcher.net/",
-    "sources": "https://github.com/calmilamsy/BIN-fabric-example-mod"
+    "sources": "https://openeye.openmods.info/mod/tmt/1.13"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/tmt/icon.png",
+  "icon": "assets/tmt/iconTMT.png",
 
   "environment": "*",
   "entrypoints": {
