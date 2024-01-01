@@ -1,4 +1,4 @@
-package net.kozibrodka.tmt.TURBO_MODEL_125;
+package net.kozibrodka.tmt.TURBO_MODEL_164;
 
 import net.minecraft.class_214;
 import net.minecraft.client.render.QuadPoint;
@@ -117,17 +117,75 @@ public class ModelRendererTurbo extends ModelRenderer {
         }
     }
 
+    private TexturedPolygon addPolygonReturn(PositionTextureVertex[] verts, int u1, int v1, int u2, int v2, float q1, float q2, float q3, float q4) {
+        if(verts.length < 3) {
+            return null;
+        } else {
+            float uOffs = 1.0F / (this.textureWidth * 10.0F);
+            float vOffs = 1.0F / (this.textureHeight * 10.0F);
+            if(verts.length < 4) {
+                float xMin = -1.0F;
+                float yMin = -1.0F;
+                float xMax = 0.0F;
+                float yMax = 0.0F;
+
+                float vMin;
+                float uSize;
+                for(int uMin = 0; uMin < verts.length; ++uMin) {
+                    vMin = verts[uMin].field_1147;
+                    uSize = verts[uMin].field_1148;
+                    xMax = Math.max(xMax, vMin);
+                    xMin = xMin < -1.0F ? vMin : Math.min(xMin, vMin);
+                    yMax = Math.max(yMax, uSize);
+                    yMin = yMin < -1.0F ? uSize : Math.min(yMin, uSize);
+                }
+
+                float var21 = (float)u1 / this.textureWidth + uOffs;
+                vMin = (float)v1 / this.textureHeight + vOffs;
+                uSize = (float)(u2 - u1) / this.textureWidth - uOffs * 2.0F;
+                float vSize = (float)(v2 - v1) / this.textureHeight - vOffs * 2.0F;
+                float xSize = xMax - xMin;
+                float ySize = yMax - yMin;
+
+                for(int i = 0; i < verts.length; ++i) {
+                    float xPos = verts[i].field_1147;
+                    float yPos = verts[i].field_1148;
+                    xPos = (xPos - xMin) / xSize;
+                    yPos = (yPos - yMin) / ySize;
+                    verts[i] = verts[i].func_78240_a(var21 + xPos * uSize, vMin + yPos * vSize);
+                }
+            } else {
+                verts[0] = verts[0].setTexturePosition(((float)u2 / this.textureWidth - uOffs) * q1, ((float)v1 / this.textureHeight + vOffs) * q1, q1);
+                verts[1] = verts[1].setTexturePosition(((float)u1 / this.textureWidth + uOffs) * q2, ((float)v1 / this.textureHeight + vOffs) * q2, q2);
+                verts[2] = verts[2].setTexturePosition(((float)u1 / this.textureWidth + uOffs) * q3, ((float)v2 / this.textureHeight - vOffs) * q3, q3);
+                verts[3] = verts[3].setTexturePosition(((float)u2 / this.textureWidth - uOffs) * q4, ((float)v2 / this.textureHeight - vOffs) * q4, q4);
+
+//                verts[0] = verts[0].method_983((float)u2 / this.textureWidth - uOffs, (float)v1 / this.textureHeight + vOffs);
+//                verts[1] = verts[1].method_983((float)u1 / this.textureWidth + uOffs, (float)v1 / this.textureHeight + vOffs);
+//                verts[2] = verts[2].method_983((float)u1 / this.textureWidth + uOffs, (float)v2 / this.textureHeight - vOffs);
+//                verts[3] = verts[3].method_983((float)u2 / this.textureWidth - uOffs, (float)v2 / this.textureHeight - vOffs);
+            }
+
+            return new TexturedPolygon(verts);
+        }
+    }
+
     public void addRectShape(float[] v, float[] v1, float[] v2, float[] v3, float[] v4, float[] v5, float[] v6, float[] v7, int w, int h, int d) {
+        float[] var1 = new float[]{1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F};
+        this.addRectShape(v, v1, v2, v3, v4, v5, v6, v7, w, h, d, var1);
+    }
+
+    public void addRectShape(float[] v, float[] v1, float[] v2, float[] v3, float[] v4, float[] v5, float[] v6, float[] v7, int w, int h, int d, float[] qParam) {
         QuadPoint[] verts = new QuadPoint[8];
         TexturedPolygon[] poly = new TexturedPolygon[6];
-        QuadPoint positionTexturevertex = new QuadPoint(v[0], v[1], v[2], 0.0F, 0.0F);
-        QuadPoint positionTexturevertex1 = new QuadPoint(v1[0], v1[1], v1[2], 0.0F, 8.0F);
-        QuadPoint positionTexturevertex2 = new QuadPoint(v2[0], v2[1], v2[2], 8.0F, 8.0F);
-        QuadPoint positionTexturevertex3 = new QuadPoint(v3[0], v3[1], v3[2], 8.0F, 0.0F);
-        QuadPoint positionTexturevertex4 = new QuadPoint(v4[0], v4[1], v4[2], 0.0F, 0.0F);
-        QuadPoint positionTexturevertex5 = new QuadPoint(v5[0], v5[1], v5[2], 0.0F, 8.0F);
-        QuadPoint positionTexturevertex6 = new QuadPoint(v6[0], v6[1], v6[2], 8.0F, 8.0F);
-        QuadPoint positionTexturevertex7 = new QuadPoint(v7[0], v7[1], v7[2], 8.0F, 0.0F);
+        PositionTextureVertex positionTexturevertex = new PositionTextureVertex(v[0], v[1], v[2], 0.0F, 0.0F);
+        PositionTextureVertex positionTexturevertex1 = new PositionTextureVertex(v1[0], v1[1], v1[2], 0.0F, 8.0F);
+        PositionTextureVertex positionTexturevertex2 = new PositionTextureVertex(v2[0], v2[1], v2[2], 8.0F, 8.0F);
+        PositionTextureVertex positionTexturevertex3 = new PositionTextureVertex(v3[0], v3[1], v3[2], 8.0F, 0.0F);
+        PositionTextureVertex positionTexturevertex4 = new PositionTextureVertex(v4[0], v4[1], v4[2], 0.0F, 0.0F);
+        PositionTextureVertex positionTexturevertex5 = new PositionTextureVertex(v5[0], v5[1], v5[2], 0.0F, 8.0F);
+        PositionTextureVertex positionTexturevertex6 = new PositionTextureVertex(v6[0], v6[1], v6[2], 8.0F, 8.0F);
+        PositionTextureVertex positionTexturevertex7 = new PositionTextureVertex(v7[0], v7[1], v7[2], 8.0F, 0.0F);
         verts[0] = positionTexturevertex;
         verts[1] = positionTexturevertex1;
         verts[2] = positionTexturevertex2;
@@ -136,12 +194,12 @@ public class ModelRendererTurbo extends ModelRenderer {
         verts[5] = positionTexturevertex5;
         verts[6] = positionTexturevertex6;
         verts[7] = positionTexturevertex7;
-        poly[0] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex5, positionTexturevertex1, positionTexturevertex2, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + d, this.textureOffsetX + d + w + d, this.textureOffsetY + d + h);
-        poly[1] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex, positionTexturevertex4, positionTexturevertex7, positionTexturevertex3}, this.textureOffsetX + 0, this.textureOffsetY + d, this.textureOffsetX + d, this.textureOffsetY + d + h);
-        poly[2] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex5, positionTexturevertex4, positionTexturevertex, positionTexturevertex1}, this.textureOffsetX + d, this.textureOffsetY + 0, this.textureOffsetX + d + w, this.textureOffsetY + d);
-        poly[3] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex2, positionTexturevertex3, positionTexturevertex7, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + 0, this.textureOffsetX + d + w + w, this.textureOffsetY + d);
-        poly[4] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex1, positionTexturevertex, positionTexturevertex3, positionTexturevertex2}, this.textureOffsetX + d, this.textureOffsetY + d, this.textureOffsetX + d + w, this.textureOffsetY + d + h);
-        poly[5] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex4, positionTexturevertex5, positionTexturevertex6, positionTexturevertex7}, this.textureOffsetX + d + w + d, this.textureOffsetY + d, this.textureOffsetX + d + w + d + w, this.textureOffsetY + d + h);
+        poly[0] = this.addPolygonReturn(new PositionTextureVertex[]{positionTexturevertex5, positionTexturevertex1, positionTexturevertex2, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + d, this.textureOffsetX + d + w + d, this.textureOffsetY + d + h, 1.0F, qParam[7], qParam[10] * qParam[7], qParam[10]);
+        poly[1] = this.addPolygonReturn(new PositionTextureVertex[]{positionTexturevertex, positionTexturevertex4, positionTexturevertex7, positionTexturevertex3}, this.textureOffsetX + 0, this.textureOffsetY + d, this.textureOffsetX + d, this.textureOffsetY + d + h, qParam[9] * qParam[6], qParam[9], 1.0F, qParam[6]);
+        poly[2] = this.addPolygonReturn(new PositionTextureVertex[]{positionTexturevertex5, positionTexturevertex4, positionTexturevertex, positionTexturevertex1}, this.textureOffsetX + d, this.textureOffsetY + 0, this.textureOffsetX + d + w, this.textureOffsetY + d, 1.0F, qParam[8], qParam[1] * qParam[8], qParam[1]);
+        poly[3] = this.addPolygonReturn(new PositionTextureVertex[]{positionTexturevertex2, positionTexturevertex3, positionTexturevertex7, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + 0, this.textureOffsetX + d + w + w, this.textureOffsetY + d, qParam[3], qParam[3] * qParam[11], qParam[11], 1.0F);
+        poly[4] = this.addPolygonReturn(new PositionTextureVertex[]{positionTexturevertex1, positionTexturevertex, positionTexturevertex3, positionTexturevertex2}, this.textureOffsetX + d, this.textureOffsetY + d, this.textureOffsetX + d + w, this.textureOffsetY + d + h, qParam[0], qParam[0] * qParam[4], qParam[4], 1.0F);
+        poly[5] = this.addPolygonReturn(new PositionTextureVertex[]{positionTexturevertex4, positionTexturevertex5, positionTexturevertex6, positionTexturevertex7}, this.textureOffsetX + d + w + d, this.textureOffsetY + d, this.textureOffsetX + d + w + d + w, this.textureOffsetY + d + h, qParam[2] * qParam[5], qParam[2], 1.0F, qParam[5]);
         if(this.i ^ this.flip) {
             for(int l = 0; l < poly.length; ++l) {
                 poly[l].method_1925();
@@ -279,8 +337,214 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v7[0] -= (float)m * bottomScale;
                 v7[2] += bottomScale;
         }
+        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
+    }
 
-        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d);
+    public void addFlexBox(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, int dir) {
+        float f4 = x + (float)w;
+        float f5 = y + (float)h;
+        float f6 = z + (float)d;
+        x -= scale;
+        y -= scale;
+        z -= scale;
+        f4 += scale;
+        f5 += scale;
+        f6 += scale;
+        int m = this.i ? -1 : 1;
+        if(this.i) {
+            float v = f4;
+            f4 = x;
+            x = v;
+        }
+
+        float[] v0 = new float[]{x, y, z};
+        float[] v1 = new float[]{f4, y, z};
+        float[] v2 = new float[]{f4, f5, z};
+        float[] v3 = new float[]{x, f5, z};
+        float[] v4 = new float[]{x, y, f6};
+        float[] v5 = new float[]{f4, y, f6};
+        float[] v6 = new float[]{f4, f5, f6};
+        float[] v7 = new float[]{x, f5, f6};
+        switch(dir) {
+            case 0:
+                v1[0] -= (float)m * bScale4;
+                v1[1] -= bScale1;
+                v1[0] += (float)m * bScale3;
+                v1[1] -= bScale1;
+                v2[0] += (float)m * bScale3;
+                v2[1] += bScale2;
+                v3[0] -= (float)m * bScale4;
+                v3[1] += bScale2;
+                break;
+            case 1:
+                v4[0] -= (float)m * bScale4;
+                v4[1] -= bScale1;
+                v5[0] += (float)m * bScale3;
+                v5[1] -= bScale1;
+                v6[0] += (float)m * bScale3;
+                v6[1] += bScale2;
+                v7[0] -= (float)m * bScale4;
+                v7[1] += bScale2;
+                break;
+            case 2:
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v2[1] += bScale2;
+                v2[2] -= bScale3;
+                v5[1] -= bScale1;
+                v5[2] += bScale4;
+                v6[1] += bScale2;
+                v6[2] += bScale4;
+                break;
+            case 3:
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v3[1] += bScale2;
+                v3[2] -= bScale3;
+                v4[1] -= bScale1;
+                v4[2] += bScale4;
+                v7[1] += bScale2;
+                v7[2] += bScale4;
+                break;
+            case 4:
+                v1[0] -= (float)m * bScale1;
+                v1[2] -= bScale3;
+                v1[0] += (float)m * bScale2;
+                v1[2] -= bScale3;
+                v4[0] -= (float)m * bScale1;
+                v4[2] += bScale4;
+                v5[0] += (float)m * bScale2;
+                v5[2] += bScale4;
+                break;
+            case 5:
+                v2[0] += (float)m * bScale2;
+                v2[2] -= bScale3;
+                v3[0] -= (float)m * bScale1;
+                v3[2] -= bScale3;
+                v6[0] += (float)m * bScale2;
+                v6[2] += bScale4;
+                v7[0] -= (float)m * bScale1;
+                v7[2] += bScale4;
+        }
+
+        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
+    }
+
+    public void addFlexTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, float fScale1, float fScale2, int dir) {
+        float f4 = x + (float)w;
+        float f5 = y + (float)h;
+        float f6 = z + (float)d;
+        x -= scale;
+        y -= scale;
+        z -= scale;
+        f4 += scale;
+        f5 += scale;
+        f6 += scale;
+        int m = this.i ? -1 : 1;
+        if(this.i) {
+            float v = f4;
+            f4 = x;
+            x = v;
+        }
+
+        float[] v0 = new float[]{x, y, z};
+        float[] v1 = new float[]{f4, y, z};
+        float[] v2 = new float[]{f4, f5, z};
+        float[] v3 = new float[]{x, f5, z};
+        float[] v4 = new float[]{x, y, f6};
+        float[] v5 = new float[]{f4, y, f6};
+        float[] v6 = new float[]{f4, f5, f6};
+        float[] v7 = new float[]{x, f5, f6};
+        switch(dir) {
+            case 0:
+                v1[1] -= fScale1;
+                v5[1] -= fScale1;
+                v2[1] += fScale2;
+                v6[1] += fScale2;
+                v1[0] -= (float)m * bScale4;
+                v1[1] -= bScale1;
+                v1[0] += (float)m * bScale3;
+                v1[1] -= bScale1;
+                v2[0] += (float)m * bScale3;
+                v2[1] += bScale2;
+                v3[0] -= (float)m * bScale4;
+                v3[1] += bScale2;
+                break;
+            case 1:
+                v1[1] -= fScale1;
+                v5[1] -= fScale1;
+                v2[1] += fScale2;
+                v6[1] += fScale2;
+                v4[0] -= (float)m * bScale4;
+                v4[1] -= bScale1;
+                v5[0] += (float)m * bScale3;
+                v5[1] -= bScale1;
+                v6[0] += (float)m * bScale3;
+                v6[1] += bScale2;
+                v7[0] -= (float)m * bScale4;
+                v7[1] += bScale2;
+                break;
+            case 2:
+                v1[2] -= fScale1;
+                v1[2] -= fScale1;
+                v4[2] += fScale2;
+                v5[2] += fScale2;
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v2[1] += bScale2;
+                v2[2] -= bScale3;
+                v5[1] -= bScale1;
+                v5[2] += bScale4;
+                v6[1] += bScale2;
+                v6[2] += bScale4;
+                break;
+            case 3:
+                v1[2] -= fScale1;
+                v1[2] -= fScale1;
+                v4[2] += fScale2;
+                v5[2] += fScale2;
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v3[1] += bScale2;
+                v3[2] -= bScale3;
+                v4[1] -= bScale1;
+                v4[2] += bScale4;
+                v7[1] += bScale2;
+                v7[2] += bScale4;
+                break;
+            case 4:
+                v1[2] -= fScale1;
+                v2[2] -= fScale1;
+                v5[2] += fScale2;
+                v6[2] += fScale2;
+                v1[0] -= (float)m * bScale1;
+                v1[2] -= bScale3;
+                v1[0] += (float)m * bScale2;
+                v1[2] -= bScale3;
+                v4[0] -= (float)m * bScale1;
+                v4[2] += bScale4;
+                v5[0] += (float)m * bScale2;
+                v5[2] += bScale4;
+                break;
+            case 5:
+                v1[2] -= fScale1;
+                v2[2] -= fScale1;
+                v5[2] += fScale2;
+                v6[2] += fScale2;
+                v2[0] += (float)m * bScale2;
+                v2[2] -= bScale3;
+                v3[0] -= (float)m * bScale1;
+                v3[2] -= bScale3;
+                v6[0] += (float)m * bScale2;
+                v6[2] += bScale4;
+                v7[0] -= (float)m * bScale1;
+                v7[2] += bScale4;
+        }
+
+        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
     }
 
     public void addShape3D(float x, float y, float z, Coord2D[] coordinates, float depth, int shapeTextureWidth, int shapeTextureHeight, int sideTextureWidth, int sideTextureHeight, int direction) {
