@@ -283,6 +283,212 @@ public class ModelRendererTurbo extends ModelRenderer {
         this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d);
     }
 
+    public void addFlexBox(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, int dir) {
+        float f4 = x + (float)w;
+        float f5 = y + (float)h;
+        float f6 = z + (float)d;
+        x -= scale;
+        y -= scale;
+        z -= scale;
+        f4 += scale;
+        f5 += scale;
+        f6 += scale;
+        int m = this.i ? -1 : 1;
+        if(this.i) {
+            float v = f4;
+            f4 = x;
+            x = v;
+        }
+
+        float[] v0 = new float[]{x, y, z};
+        float[] v1 = new float[]{f4, y, z};
+        float[] v2 = new float[]{f4, f5, z};
+        float[] v3 = new float[]{x, f5, z};
+        float[] v4 = new float[]{x, y, f6};
+        float[] v5 = new float[]{f4, y, f6};
+        float[] v6 = new float[]{f4, f5, f6};
+        float[] v7 = new float[]{x, f5, f6};
+        switch(dir) {
+            case 0:
+                v1[0] -= (float)m * bScale4;
+                v1[1] -= bScale1;
+                v1[0] += (float)m * bScale3;
+                v1[1] -= bScale1;
+                v2[0] += (float)m * bScale3;
+                v2[1] += bScale2;
+                v3[0] -= (float)m * bScale4;
+                v3[1] += bScale2;
+                break;
+            case 1:
+                v4[0] -= (float)m * bScale4;
+                v4[1] -= bScale1;
+                v5[0] += (float)m * bScale3;
+                v5[1] -= bScale1;
+                v6[0] += (float)m * bScale3;
+                v6[1] += bScale2;
+                v7[0] -= (float)m * bScale4;
+                v7[1] += bScale2;
+                break;
+            case 2:
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v2[1] += bScale2;
+                v2[2] -= bScale3;
+                v5[1] -= bScale1;
+                v5[2] += bScale4;
+                v6[1] += bScale2;
+                v6[2] += bScale4;
+                break;
+            case 3:
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v3[1] += bScale2;
+                v3[2] -= bScale3;
+                v4[1] -= bScale1;
+                v4[2] += bScale4;
+                v7[1] += bScale2;
+                v7[2] += bScale4;
+                break;
+            case 4:
+                v1[0] -= (float)m * bScale1;
+                v1[2] -= bScale3;
+                v1[0] += (float)m * bScale2;
+                v1[2] -= bScale3;
+                v4[0] -= (float)m * bScale1;
+                v4[2] += bScale4;
+                v5[0] += (float)m * bScale2;
+                v5[2] += bScale4;
+                break;
+            case 5:
+                v2[0] += (float)m * bScale2;
+                v2[2] -= bScale3;
+                v3[0] -= (float)m * bScale1;
+                v3[2] -= bScale3;
+                v6[0] += (float)m * bScale2;
+                v6[2] += bScale4;
+                v7[0] -= (float)m * bScale1;
+                v7[2] += bScale4;
+        }
+
+//        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d);
+    }
+
+    public void addFlexTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, float fScale1, float fScale2, int dir) {
+        float f4 = x + (float)w;
+        float f5 = y + (float)h;
+        float f6 = z + (float)d;
+        x -= scale;
+        y -= scale;
+        z -= scale;
+        f4 += scale;
+        f5 += scale;
+        f6 += scale;
+        int m = this.i ? -1 : 1;
+        if(this.i) {
+            float v = f4;
+            f4 = x;
+            x = v;
+        }
+
+        float[] v0 = new float[]{x, y, z};
+        float[] v1 = new float[]{f4, y, z};
+        float[] v2 = new float[]{f4, f5, z};
+        float[] v3 = new float[]{x, f5, z};
+        float[] v4 = new float[]{x, y, f6};
+        float[] v5 = new float[]{f4, y, f6};
+        float[] v6 = new float[]{f4, f5, f6};
+        float[] v7 = new float[]{x, f5, f6};
+        switch(dir) {
+            case 0:
+                v1[1] -= fScale1;
+                v5[1] -= fScale1;
+                v2[1] += fScale2;
+                v6[1] += fScale2;
+                v1[0] -= (float)m * bScale4;
+                v1[1] -= bScale1;
+                v1[0] += (float)m * bScale3;
+                v1[1] -= bScale1;
+                v2[0] += (float)m * bScale3;
+                v2[1] += bScale2;
+                v3[0] -= (float)m * bScale4;
+                v3[1] += bScale2;
+                break;
+            case 1:
+                v1[1] -= fScale1;
+                v5[1] -= fScale1;
+                v2[1] += fScale2;
+                v6[1] += fScale2;
+                v4[0] -= (float)m * bScale4;
+                v4[1] -= bScale1;
+                v5[0] += (float)m * bScale3;
+                v5[1] -= bScale1;
+                v6[0] += (float)m * bScale3;
+                v6[1] += bScale2;
+                v7[0] -= (float)m * bScale4;
+                v7[1] += bScale2;
+                break;
+            case 2:
+                v1[2] -= fScale1;
+                v1[2] -= fScale1;
+                v4[2] += fScale2;
+                v5[2] += fScale2;
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v2[1] += bScale2;
+                v2[2] -= bScale3;
+                v5[1] -= bScale1;
+                v5[2] += bScale4;
+                v6[1] += bScale2;
+                v6[2] += bScale4;
+                break;
+            case 3:
+                v1[2] -= fScale1;
+                v1[2] -= fScale1;
+                v4[2] += fScale2;
+                v5[2] += fScale2;
+                v1[1] -= bScale1;
+                v1[2] -= bScale3;
+                v3[1] += bScale2;
+                v3[2] -= bScale3;
+                v4[1] -= bScale1;
+                v4[2] += bScale4;
+                v7[1] += bScale2;
+                v7[2] += bScale4;
+                break;
+            case 4:
+                v1[2] -= fScale1;
+                v2[2] -= fScale1;
+                v5[2] += fScale2;
+                v6[2] += fScale2;
+                v1[0] -= (float)m * bScale1;
+                v1[2] -= bScale3;
+                v1[0] += (float)m * bScale2;
+                v1[2] -= bScale3;
+                v4[0] -= (float)m * bScale1;
+                v4[2] += bScale4;
+                v5[0] += (float)m * bScale2;
+                v5[2] += bScale4;
+                break;
+            case 5:
+                v1[2] -= fScale1;
+                v2[2] -= fScale1;
+                v5[2] += fScale2;
+                v6[2] += fScale2;
+                v2[0] += (float)m * bScale2;
+                v2[2] -= bScale3;
+                v3[0] -= (float)m * bScale1;
+                v3[2] -= bScale3;
+                v6[0] += (float)m * bScale2;
+                v6[2] += bScale4;
+                v7[0] -= (float)m * bScale1;
+                v7[2] += bScale4;
+        }
+
+//        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d);
+    }
+
     public void addShape3D(float x, float y, float z, Coord2D[] coordinates, float depth, int shapeTextureWidth, int shapeTextureHeight, int sideTextureWidth, int sideTextureHeight, int direction) {
         this.addShape3D(x, y, z, (Coord2D[])coordinates, depth, shapeTextureWidth, shapeTextureHeight, sideTextureWidth, sideTextureHeight, direction, (float[])null);
     }
