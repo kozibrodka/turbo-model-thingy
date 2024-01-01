@@ -1,6 +1,5 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.client.render.QuadPoint;
 import net.minecraft.util.maths.MathHelper;
 import net.minecraft.util.maths.Vec3f;
 
@@ -176,10 +175,10 @@ public class ModelPoolObjEntry extends ModelPoolEntry {
                             normal[0] /= var25;
                             normal[1] /= var25;
                             normal[2] /= var25;
-                            QuadPoint[] var26 = new QuadPoint[i.size()];
+                            PositionTextureVertex[] var26 = new PositionTextureVertex[i.size()];
 
                             for(int var27 = 0; var27 < i.size(); ++var27) {
-                                var26[var27] = (QuadPoint)i.get(var27);
+                                var26[var27] = (PositionTextureVertex)i.get(var27);
                             }
 
                             TexturedPolygon var28 = new TexturedPolygon(var26);

@@ -2,35 +2,34 @@ package net.kozibrodka.tmt.TURBO_MODEL_164;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.QuadPoint;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.util.maths.Vec3f;
 
 @Environment(EnvType.CLIENT)
-public class TexturedQuadAlt {
-    public QuadPoint[] quadPoint;
+public class TexturedQuad {
+    public PositionTextureVertex[] quadPoint;
     public int field_2519;
     private boolean field_2520;
 
-    public TexturedQuadAlt(QuadPoint[] args) {
+    public TexturedQuad(PositionTextureVertex[] args) {
         this.field_2519 = 0;
         this.field_2520 = false;
         this.quadPoint = args;
         this.field_2519 = args.length;
     }
 
-    public TexturedQuadAlt(QuadPoint[] var1, int var2, int var3, int var4, int var5, float var6, float var7) {
+    public TexturedQuad(PositionTextureVertex[] var1, int var2, int var3, int var4, int var5, float var6, float var7) {
         this(var1);
         float var8 = 0.0F / var6;
         float var9 = 0.0F / var7;
-        var1[0] = var1[0].method_983((float)var4 / var6 - var8, (float)var3 / var7 + var9);
-        var1[1] = var1[1].method_983((float)var2 / var6 + var8, (float)var3 / var7 + var9);
-        var1[2] = var1[2].method_983((float)var2 / var6 + var8, (float)var5 / var7 - var9);
-        var1[3] = var1[3].method_983((float)var4 / var6 - var8, (float)var5 / var7 - var9);
+        var1[0] = var1[0].func_78240_a((float)var4 / var6 - var8, (float)var3 / var7 + var9);
+        var1[1] = var1[1].func_78240_a((float)var2 / var6 + var8, (float)var3 / var7 + var9);
+        var1[2] = var1[2].func_78240_a((float)var2 / var6 + var8, (float)var5 / var7 - var9);
+        var1[3] = var1[3].func_78240_a((float)var4 / var6 - var8, (float)var5 / var7 - var9);
     }
 
     public void method_1925() {
-        QuadPoint[] var1 = new QuadPoint[this.quadPoint.length];
+        PositionTextureVertex[] var1 = new PositionTextureVertex[this.quadPoint.length];
 
         for(int var2 = 0; var2 < this.quadPoint.length; ++var2) {
             var1[var2] = this.quadPoint[this.quadPoint.length - var2 - 1];
@@ -51,7 +50,7 @@ public class TexturedQuadAlt {
         }
 
         for(int var6 = 0; var6 < 4; ++var6) {
-            QuadPoint var7 = this.quadPoint[var6];
+            PositionTextureVertex var7 = this.quadPoint[var6];
             arg.vertex((double)((float)var7.pointVector.x * f), (double)((float)var7.pointVector.y * f), (double)((float)var7.pointVector.z * f), (double)var7.field_1147, (double)var7.field_1148);
         }
 

@@ -1,17 +1,16 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.client.render.QuadPoint;
 import net.minecraft.util.maths.Vec3f;
 
 import java.util.ArrayList;
 
-public class PositionTransformVertex extends QuadPoint {
+public class PositionTransformVertex extends PositionTextureVertex {
 
     public PositionTransformVertex(float x, float y, float z, float u, float v) {
         this(Vec3f.method_1293((double) x, (double) y, (double) z), u, v);
     }
 
-    public PositionTransformVertex(QuadPoint vertex, float u, float v) {
+    public PositionTransformVertex(PositionTextureVertex vertex, float u, float v) {
         super(vertex, u, v);
         this.transformGroups = new ArrayList();
         if (vertex instanceof PositionTransformVertex) {
@@ -22,7 +21,7 @@ public class PositionTransformVertex extends QuadPoint {
 
     }
 
-    public PositionTransformVertex(QuadPoint vertex) {
+    public PositionTransformVertex(PositionTextureVertex vertex) {
         this(vertex, vertex.field_1147, vertex.field_1148);
     }
 

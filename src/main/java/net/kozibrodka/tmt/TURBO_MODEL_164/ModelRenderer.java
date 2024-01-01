@@ -1,5 +1,6 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
+
 import net.minecraft.class_214;
 import net.minecraft.client.render.Tessellator;
 import org.lwjgl.opengl.GL11;
@@ -10,17 +11,17 @@ import java.util.List;
 public class ModelRenderer {
     public float textureWidth;
     public float textureHeight;
-    private int textureOffsetX;
-    private int textureOffsetY;
-    public float rotationPointX;
-    public float rotationPointY;
-    public float rotationPointZ;
-    public float rotateAngleX;
-    public float rotateAngleY;
-    public float rotateAngleZ;
-    private boolean compiled;
-    private int displayList;
-    public boolean mirror;
+    private int textureOffsetX; //a
+    private int textureOffsetY;  //b
+    public float rotationPointX; //c
+    public float rotationPointY; //d
+    public float rotationPointZ; //e
+    public float rotateAngleX;   //f
+    public float rotateAngleY;  //g
+    public float rotateAngleZ; //h
+    private boolean compiled; //j
+    private int displayList; //j
+    public boolean mirror;  //k
     public boolean showModel;
     public boolean isHidden;
     public List cubeList;

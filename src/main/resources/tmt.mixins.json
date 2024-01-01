@@ -4,6 +4,7 @@
   "package": "net.kozibrodka.tmt.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "TessellatorAccessor"
   ],
   "server": [
   ],

@@ -1,6 +1,5 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.client.render.TexturedQuad;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.texture.TextureManager;
 
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 
 public class TextureGroup {
 
-    public void addPoly(TexturedQuad quad) {
+    public void addPoly(TexturedPolygon quad) {
         this.poly.add(quad);
     }
 
