@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.class_214;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.texture.TextureManager;
-import net.minecraft.util.maths.MathHelper;
+import net.minecraft.client.util.GlAllocationUtils;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class ModelRendererTurbo extends ModelRenderer {
@@ -115,8 +114,8 @@ public class ModelRendererTurbo extends ModelRenderer {
 				float vMin;
 				float uSize;
 				for(int uMin = 0; uMin < verts.length; ++uMin) {
-					vMin = verts[uMin].field_1147;
-					uSize = verts[uMin].field_1148;
+					vMin = verts[uMin].u;
+					uSize = verts[uMin].v;
 					xMax = Math.max(xMax, vMin);
 					xMin = xMin < -1.0F ? vMin : Math.min(xMin, vMin);
 					yMax = Math.max(yMax, uSize);
@@ -131,8 +130,8 @@ public class ModelRendererTurbo extends ModelRenderer {
 				float ySize = yMax - yMin;
 
 				for(int i = 0; i < verts.length; ++i) {
-					float xPos = verts[i].field_1147;
-					float yPos = verts[i].field_1148;
+					float xPos = verts[i].u;
+					float yPos = verts[i].v;
 					xPos = (xPos - xMin) / xSize;
 					yPos = (yPos - yMin) / ySize;
 					verts[i] = verts[i].func_78240_a(var25 + xPos * uSize, vMin + yPos * vSize);
@@ -163,8 +162,8 @@ public class ModelRendererTurbo extends ModelRenderer {
 				float vMin;
 				float uSize;
 				for(int uMin = 0; uMin < verts.length; ++uMin) {
-					vMin = verts[uMin].field_1147;
-					uSize = verts[uMin].field_1148;
+					vMin = verts[uMin].u;
+					uSize = verts[uMin].v;
 					xMax = Math.max(xMax, vMin);
 					xMin = xMin < -1.0F ? vMin : Math.min(xMin, vMin);
 					yMax = Math.max(yMax, uSize);
@@ -179,8 +178,8 @@ public class ModelRendererTurbo extends ModelRenderer {
 				float ySize = yMax - yMin;
 
 				for(int i = 0; i < verts.length; ++i) {
-					float xPos = verts[i].field_1147;
-					float yPos = verts[i].field_1148;
+					float xPos = verts[i].u;
+					float yPos = verts[i].v;
 					xPos = (xPos - xMin) / xSize;
 					yPos = (yPos - yMin) / ySize;
 					verts[i] = verts[i].func_78240_a(var21 + xPos * uSize, vMin + yPos * vSize);
@@ -1035,9 +1034,9 @@ public class ModelRendererTurbo extends ModelRenderer {
 			PositionTextureVertex[] verts = this.faces[i].vertexPositions;
 
 			for(int j = 0; j < verts.length; ++j) {
-				verts[j].pointVector.x *= (double)(x ? -1 : 1);
-				verts[j].pointVector.y *= (double)(y ? -1 : 1);
-				verts[j].pointVector.z *= (double)(z ? -1 : 1);
+				verts[j].pos.x *= (double)(x ? -1 : 1);
+				verts[j].pos.y *= (double)(y ? -1 : 1);
+				verts[j].pos.z *= (double)(z ? -1 : 1);
 			}
 
 			if(x ^ y ^ z) {
@@ -1284,7 +1283,7 @@ public class ModelRendererTurbo extends ModelRenderer {
 			this.displayListArray = new int[this.textureGroup.size()];
 
 			for(int i = 0; itr.hasNext(); ++i) {
-				this.displayListArray[i] = class_214.method_741(1);
+				this.displayListArray[i] = GlAllocationUtils.generateDisplayLists(1);
 				GL11.glNewList(this.displayListArray[i], GL11.GL_COMPILE);
 				TmtTessellator tessellator = TmtTessellator.field_78398_a;
 				TextureGroup usedGroup = (TextureGroup)itr.next();
@@ -1301,7 +1300,7 @@ public class ModelRendererTurbo extends ModelRenderer {
 	}
 
 	private void compileLegacyDisplayList(float worldScale) {
-		this.field_78811_r = class_214.method_741(1);
+		this.field_78811_r = GlAllocationUtils.generateDisplayLists(1);
 		GL11.glNewList(this.field_78811_r, GL11.GL_COMPILE);
 		TmtTessellator tessellator = TmtTessellator.field_78398_a;
 

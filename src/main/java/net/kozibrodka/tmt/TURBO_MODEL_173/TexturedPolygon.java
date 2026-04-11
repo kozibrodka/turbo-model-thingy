@@ -1,14 +1,14 @@
 package net.kozibrodka.tmt.TURBO_MODEL_173;
 
-import net.minecraft.client.render.QuadPoint;
+import net.minecraft.client.model.Quad;
+import net.minecraft.client.model.Vertex;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.TexturedQuad;
-import net.minecraft.util.maths.Vec3f;
+import net.minecraft.util.math.Vec3d;
 
-public class TexturedPolygon extends TexturedQuad
+public class TexturedPolygon extends Quad
 {
 
-    public TexturedPolygon(QuadPoint apositiontexturevertex[])
+    public TexturedPolygon(Vertex apositiontexturevertex[])
     {
         super(apositiontexturevertex);
         invertNormal = false;
@@ -29,13 +29,13 @@ public class TexturedPolygon extends TexturedQuad
 
     public void draw(Tessellator tessellator, float f)
     {
-        if(field_2519 == 3)
+        if(verticesCount == 3)
         {
             tessellator.start(4);
         } else
-        if(field_2519 == 4)
+        if(verticesCount == 4)
         {
-            tessellator.start();
+            tessellator.startQuads();
         } else
         {
             tessellator.start(9);
@@ -44,36 +44,36 @@ public class TexturedPolygon extends TexturedQuad
         {
             if(invertNormal)
             {
-                tessellator.setNormal(-normals[0], -normals[1], -normals[2]);
+                tessellator.normal(-normals[0], -normals[1], -normals[2]);
             } else
             {
-                tessellator.setNormal(normals[0], normals[1], normals[2]);
+                tessellator.normal(normals[0], normals[1], normals[2]);
             }
         } else
-        if(quadPoint.length >= 3)
+        if(vertices.length >= 3)
         {
-            Vec3f vec3d = quadPoint[1].pointVector.method_1307(quadPoint[0].pointVector);
-            Vec3f vec3d1 = quadPoint[1].pointVector.method_1307(quadPoint[2].pointVector);
-            Vec3f vec3d2 = vec3d1.method_1309(vec3d).method_1296();
+            Vec3d vec3d = vertices[1].pos.relativize(vertices[0].pos);
+            Vec3d vec3d1 = vertices[1].pos.relativize(vertices[2].pos);
+            Vec3d vec3d2 = vec3d1.crossProduct(vec3d).normalize();
             if(invertNormal)
             {
-                tessellator.setNormal(-(float)vec3d2.x, -(float)vec3d2.y, -(float)vec3d2.z);
+                tessellator.normal(-(float)vec3d2.x, -(float)vec3d2.y, -(float)vec3d2.z);
             } else
             {
-                tessellator.setNormal((float)vec3d2.x, (float)vec3d2.y, (float)vec3d2.z);
+                tessellator.normal((float)vec3d2.x, (float)vec3d2.y, (float)vec3d2.z);
             }
         } else
         {
             return;
         }
-        for(int i = 0; i < field_2519; i++)
+        for(int i = 0; i < verticesCount; i++)
         {
-            QuadPoint positiontexturevertex = quadPoint[i];
+            Vertex positiontexturevertex = vertices[i];
             if(positiontexturevertex instanceof PositionTransformVertex)
             {
                 ((PositionTransformVertex)positiontexturevertex).setTransformation();
             }
-            tessellator.vertex((float)positiontexturevertex.pointVector.x * f, (float)positiontexturevertex.pointVector.y * f, (float)positiontexturevertex.pointVector.z * f, positiontexturevertex.field_1147, positiontexturevertex.field_1148);
+            tessellator.vertex((float)positiontexturevertex.pos.x * f, (float)positiontexturevertex.pos.y * f, (float)positiontexturevertex.pos.z * f, positiontexturevertex.u, positiontexturevertex.v);
         }
 
         tessellator.draw();

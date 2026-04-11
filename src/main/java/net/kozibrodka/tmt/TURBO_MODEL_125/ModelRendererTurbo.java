@@ -1,12 +1,12 @@
 package net.kozibrodka.tmt.TURBO_MODEL_125;
 
-import net.minecraft.class_214;
-import net.minecraft.client.render.QuadPoint;
+import net.minecraft.client.model.Quad;
+import net.minecraft.client.model.Vertex;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.TexturedQuad;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.texture.TextureManager;
-import net.minecraft.util.maths.MathHelper;
+import net.minecraft.client.util.GlAllocationUtils;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.util.*;
@@ -21,7 +21,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         this.i = false;
         this.j = true;
         this.field_1402_i = false;
-        this.vertices = new QuadPoint[0];
+        this.vertices = new Vertex[0];
         this.faces = new TexturedPolygon[0];
         this.forcedRecompile = false;
         this.transformGroup = new HashMap();
@@ -50,14 +50,14 @@ public class ModelRendererTurbo extends ModelRenderer {
         this.textureHeight = (float)textureV;
     }
 
-    public void addPolygon(QuadPoint[] verts) {
+    public void addPolygon(Vertex[] verts) {
         this.copyTo(verts, new TexturedPolygon[]{new TexturedPolygon(verts)});
     }
 
-    public void addPolygon(QuadPoint[] verts, int[][] uv) {
+    public void addPolygon(Vertex[] verts, int[][] uv) {
         try {
             for(int i = 0; i < verts.length; ++i) {
-                verts[i] = verts[i].method_983((float)uv[i][0] / this.textureWidth, (float)uv[i][1] / this.textureHeight);
+                verts[i] = verts[i].remap((float)uv[i][0] / this.textureWidth, (float)uv[i][1] / this.textureHeight);
             }
         } finally {
             this.addPolygon(verts);
@@ -65,11 +65,11 @@ public class ModelRendererTurbo extends ModelRenderer {
 
     }
 
-    public void addPolygon(QuadPoint[] verts, int u1, int v1, int u2, int v2) {
+    public void addPolygon(Vertex[] verts, int u1, int v1, int u2, int v2) {
         this.copyTo(verts, new TexturedPolygon[]{this.addPolygonReturn(verts, u1, v1, u2, v2)});
     }
 
-    private TexturedPolygon addPolygonReturn(QuadPoint[] verts, int u1, int v1, int u2, int v2) {
+    private TexturedPolygon addPolygonReturn(Vertex[] verts, int u1, int v1, int u2, int v2) {
         if(verts.length < 3) {
             return null;
         } else {
@@ -84,8 +84,8 @@ public class ModelRendererTurbo extends ModelRenderer {
                 float vMin;
                 float uSize;
                 for(int uMin = 0; uMin < verts.length; ++uMin) {
-                    vMin = verts[uMin].field_1147;
-                    uSize = verts[uMin].field_1148;
+                    vMin = verts[uMin].u;
+                    uSize = verts[uMin].v;
                     xMax = Math.max(xMax, vMin);
                     xMin = xMin < -1.0F ? vMin : Math.min(xMin, vMin);
                     yMax = Math.max(yMax, uSize);
@@ -100,17 +100,17 @@ public class ModelRendererTurbo extends ModelRenderer {
                 float ySize = yMax - yMin;
 
                 for(int i = 0; i < verts.length; ++i) {
-                    float xPos = verts[i].field_1147;
-                    float yPos = verts[i].field_1148;
+                    float xPos = verts[i].u;
+                    float yPos = verts[i].v;
                     xPos = (xPos - xMin) / xSize;
                     yPos = (yPos - yMin) / ySize;
-                    verts[i] = verts[i].method_983(var21 + xPos * uSize, vMin + yPos * vSize);
+                    verts[i] = verts[i].remap(var21 + xPos * uSize, vMin + yPos * vSize);
                 }
             } else {
-                verts[0] = verts[0].method_983((float)u2 / this.textureWidth - uOffs, (float)v1 / this.textureHeight + vOffs);
-                verts[1] = verts[1].method_983((float)u1 / this.textureWidth + uOffs, (float)v1 / this.textureHeight + vOffs);
-                verts[2] = verts[2].method_983((float)u1 / this.textureWidth + uOffs, (float)v2 / this.textureHeight - vOffs);
-                verts[3] = verts[3].method_983((float)u2 / this.textureWidth - uOffs, (float)v2 / this.textureHeight - vOffs);
+                verts[0] = verts[0].remap((float)u2 / this.textureWidth - uOffs, (float)v1 / this.textureHeight + vOffs);
+                verts[1] = verts[1].remap((float)u1 / this.textureWidth + uOffs, (float)v1 / this.textureHeight + vOffs);
+                verts[2] = verts[2].remap((float)u1 / this.textureWidth + uOffs, (float)v2 / this.textureHeight - vOffs);
+                verts[3] = verts[3].remap((float)u2 / this.textureWidth - uOffs, (float)v2 / this.textureHeight - vOffs);
             }
 
             return new TexturedPolygon(verts);
@@ -118,16 +118,16 @@ public class ModelRendererTurbo extends ModelRenderer {
     }
 
     public void addRectShape(float[] v, float[] v1, float[] v2, float[] v3, float[] v4, float[] v5, float[] v6, float[] v7, int w, int h, int d) {
-        QuadPoint[] verts = new QuadPoint[8];
+        Vertex[] verts = new Vertex[8];
         TexturedPolygon[] poly = new TexturedPolygon[6];
-        QuadPoint positionTexturevertex = new QuadPoint(v[0], v[1], v[2], 0.0F, 0.0F);
-        QuadPoint positionTexturevertex1 = new QuadPoint(v1[0], v1[1], v1[2], 0.0F, 8.0F);
-        QuadPoint positionTexturevertex2 = new QuadPoint(v2[0], v2[1], v2[2], 8.0F, 8.0F);
-        QuadPoint positionTexturevertex3 = new QuadPoint(v3[0], v3[1], v3[2], 8.0F, 0.0F);
-        QuadPoint positionTexturevertex4 = new QuadPoint(v4[0], v4[1], v4[2], 0.0F, 0.0F);
-        QuadPoint positionTexturevertex5 = new QuadPoint(v5[0], v5[1], v5[2], 0.0F, 8.0F);
-        QuadPoint positionTexturevertex6 = new QuadPoint(v6[0], v6[1], v6[2], 8.0F, 8.0F);
-        QuadPoint positionTexturevertex7 = new QuadPoint(v7[0], v7[1], v7[2], 8.0F, 0.0F);
+        Vertex positionTexturevertex = new Vertex(v[0], v[1], v[2], 0.0F, 0.0F);
+        Vertex positionTexturevertex1 = new Vertex(v1[0], v1[1], v1[2], 0.0F, 8.0F);
+        Vertex positionTexturevertex2 = new Vertex(v2[0], v2[1], v2[2], 8.0F, 8.0F);
+        Vertex positionTexturevertex3 = new Vertex(v3[0], v3[1], v3[2], 8.0F, 0.0F);
+        Vertex positionTexturevertex4 = new Vertex(v4[0], v4[1], v4[2], 0.0F, 0.0F);
+        Vertex positionTexturevertex5 = new Vertex(v5[0], v5[1], v5[2], 0.0F, 8.0F);
+        Vertex positionTexturevertex6 = new Vertex(v6[0], v6[1], v6[2], 8.0F, 8.0F);
+        Vertex positionTexturevertex7 = new Vertex(v7[0], v7[1], v7[2], 8.0F, 0.0F);
         verts[0] = positionTexturevertex;
         verts[1] = positionTexturevertex1;
         verts[2] = positionTexturevertex2;
@@ -136,15 +136,15 @@ public class ModelRendererTurbo extends ModelRenderer {
         verts[5] = positionTexturevertex5;
         verts[6] = positionTexturevertex6;
         verts[7] = positionTexturevertex7;
-        poly[0] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex5, positionTexturevertex1, positionTexturevertex2, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + d, this.textureOffsetX + d + w + d, this.textureOffsetY + d + h);
-        poly[1] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex, positionTexturevertex4, positionTexturevertex7, positionTexturevertex3}, this.textureOffsetX + 0, this.textureOffsetY + d, this.textureOffsetX + d, this.textureOffsetY + d + h);
-        poly[2] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex5, positionTexturevertex4, positionTexturevertex, positionTexturevertex1}, this.textureOffsetX + d, this.textureOffsetY + 0, this.textureOffsetX + d + w, this.textureOffsetY + d);
-        poly[3] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex2, positionTexturevertex3, positionTexturevertex7, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + 0, this.textureOffsetX + d + w + w, this.textureOffsetY + d);
-        poly[4] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex1, positionTexturevertex, positionTexturevertex3, positionTexturevertex2}, this.textureOffsetX + d, this.textureOffsetY + d, this.textureOffsetX + d + w, this.textureOffsetY + d + h);
-        poly[5] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex4, positionTexturevertex5, positionTexturevertex6, positionTexturevertex7}, this.textureOffsetX + d + w + d, this.textureOffsetY + d, this.textureOffsetX + d + w + d + w, this.textureOffsetY + d + h);
+        poly[0] = this.addPolygonReturn(new Vertex[]{positionTexturevertex5, positionTexturevertex1, positionTexturevertex2, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + d, this.textureOffsetX + d + w + d, this.textureOffsetY + d + h);
+        poly[1] = this.addPolygonReturn(new Vertex[]{positionTexturevertex, positionTexturevertex4, positionTexturevertex7, positionTexturevertex3}, this.textureOffsetX + 0, this.textureOffsetY + d, this.textureOffsetX + d, this.textureOffsetY + d + h);
+        poly[2] = this.addPolygonReturn(new Vertex[]{positionTexturevertex5, positionTexturevertex4, positionTexturevertex, positionTexturevertex1}, this.textureOffsetX + d, this.textureOffsetY + 0, this.textureOffsetX + d + w, this.textureOffsetY + d);
+        poly[3] = this.addPolygonReturn(new Vertex[]{positionTexturevertex2, positionTexturevertex3, positionTexturevertex7, positionTexturevertex6}, this.textureOffsetX + d + w, this.textureOffsetY + 0, this.textureOffsetX + d + w + w, this.textureOffsetY + d);
+        poly[4] = this.addPolygonReturn(new Vertex[]{positionTexturevertex1, positionTexturevertex, positionTexturevertex3, positionTexturevertex2}, this.textureOffsetX + d, this.textureOffsetY + d, this.textureOffsetX + d + w, this.textureOffsetY + d + h);
+        poly[5] = this.addPolygonReturn(new Vertex[]{positionTexturevertex4, positionTexturevertex5, positionTexturevertex6, positionTexturevertex7}, this.textureOffsetX + d + w + d, this.textureOffsetY + d, this.textureOffsetX + d + w + d + w, this.textureOffsetY + d + h);
         if(this.i ^ this.flip) {
             for(int l = 0; l < poly.length; ++l) {
-                poly[l].method_1925();
+                poly[l].flip();
             }
         }
 
@@ -572,7 +572,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         Shape3D shape3D = shape.extrude(x, y, z, rotX, rotY, rotZ, depth, this.textureOffsetX, this.textureOffsetY, this.textureWidth, this.textureHeight, shapeTextureWidth, shapeTextureHeight, sideTextureWidth, sideTextureHeight, faceLengths);
         if(this.flip) {
             for(int idx = 0; idx < shape3D.faces.length; ++idx) {
-                shape3D.faces[idx].method_1925();
+                shape3D.faces[idx].flip();
             }
         }
 
@@ -584,7 +584,7 @@ public class ModelRendererTurbo extends ModelRenderer {
     }
 
     public void addPixel(float x, float y, float z, float[] scale, int w, int h) {
-        QuadPoint[] verts = new QuadPoint[8];
+        Vertex[] verts = new Vertex[8];
         TexturedPolygon[] poly = new TexturedPolygon[6];
         float x1 = x + scale[0];
         float y1 = y + scale[1];
@@ -597,14 +597,14 @@ public class ModelRendererTurbo extends ModelRenderer {
         float[] f5 = new float[]{x1, y, z1};
         float[] f6 = new float[]{x1, y1, z1};
         float[] f7 = new float[]{x, y1, z1};
-        QuadPoint positionTexturevertex = new QuadPoint(f[0], f[1], f[2], 0.0F, 0.0F);
-        QuadPoint positionTexturevertex1 = new QuadPoint(f1[0], f1[1], f1[2], 0.0F, 8.0F);
-        QuadPoint positionTexturevertex2 = new QuadPoint(f2[0], f2[1], f2[2], 8.0F, 8.0F);
-        QuadPoint positionTexturevertex3 = new QuadPoint(f3[0], f3[1], f3[2], 8.0F, 0.0F);
-        QuadPoint positionTexturevertex4 = new QuadPoint(f4[0], f4[1], f4[2], 0.0F, 0.0F);
-        QuadPoint positionTexturevertex5 = new QuadPoint(f5[0], f5[1], f5[2], 0.0F, 8.0F);
-        QuadPoint positionTexturevertex6 = new QuadPoint(f6[0], f6[1], f6[2], 8.0F, 8.0F);
-        QuadPoint positionTexturevertex7 = new QuadPoint(f7[0], f7[1], f7[2], 8.0F, 0.0F);
+        Vertex positionTexturevertex = new Vertex(f[0], f[1], f[2], 0.0F, 0.0F);
+        Vertex positionTexturevertex1 = new Vertex(f1[0], f1[1], f1[2], 0.0F, 8.0F);
+        Vertex positionTexturevertex2 = new Vertex(f2[0], f2[1], f2[2], 8.0F, 8.0F);
+        Vertex positionTexturevertex3 = new Vertex(f3[0], f3[1], f3[2], 8.0F, 0.0F);
+        Vertex positionTexturevertex4 = new Vertex(f4[0], f4[1], f4[2], 0.0F, 0.0F);
+        Vertex positionTexturevertex5 = new Vertex(f5[0], f5[1], f5[2], 0.0F, 8.0F);
+        Vertex positionTexturevertex6 = new Vertex(f6[0], f6[1], f6[2], 8.0F, 8.0F);
+        Vertex positionTexturevertex7 = new Vertex(f7[0], f7[1], f7[2], 8.0F, 0.0F);
         verts[0] = positionTexturevertex;
         verts[1] = positionTexturevertex1;
         verts[2] = positionTexturevertex2;
@@ -613,12 +613,12 @@ public class ModelRendererTurbo extends ModelRenderer {
         verts[5] = positionTexturevertex5;
         verts[6] = positionTexturevertex6;
         verts[7] = positionTexturevertex7;
-        poly[0] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex5, positionTexturevertex1, positionTexturevertex2, positionTexturevertex6}, w, h, w + 1, h + 1);
-        poly[1] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex, positionTexturevertex4, positionTexturevertex7, positionTexturevertex3}, w, h, w + 1, h + 1);
-        poly[2] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex5, positionTexturevertex4, positionTexturevertex, positionTexturevertex1}, w, h, w + 1, h + 1);
-        poly[3] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex2, positionTexturevertex3, positionTexturevertex7, positionTexturevertex6}, w, h, w + 1, h + 1);
-        poly[4] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex1, positionTexturevertex, positionTexturevertex3, positionTexturevertex2}, w, h, w + 1, h + 1);
-        poly[5] = this.addPolygonReturn(new QuadPoint[]{positionTexturevertex4, positionTexturevertex5, positionTexturevertex6, positionTexturevertex7}, w, h, w + 1, h + 1);
+        poly[0] = this.addPolygonReturn(new Vertex[]{positionTexturevertex5, positionTexturevertex1, positionTexturevertex2, positionTexturevertex6}, w, h, w + 1, h + 1);
+        poly[1] = this.addPolygonReturn(new Vertex[]{positionTexturevertex, positionTexturevertex4, positionTexturevertex7, positionTexturevertex3}, w, h, w + 1, h + 1);
+        poly[2] = this.addPolygonReturn(new Vertex[]{positionTexturevertex5, positionTexturevertex4, positionTexturevertex, positionTexturevertex1}, w, h, w + 1, h + 1);
+        poly[3] = this.addPolygonReturn(new Vertex[]{positionTexturevertex2, positionTexturevertex3, positionTexturevertex7, positionTexturevertex6}, w, h, w + 1, h + 1);
+        poly[4] = this.addPolygonReturn(new Vertex[]{positionTexturevertex1, positionTexturevertex, positionTexturevertex3, positionTexturevertex2}, w, h, w + 1, h + 1);
+        poly[5] = this.addPolygonReturn(new Vertex[]{positionTexturevertex4, positionTexturevertex5, positionTexturevertex6, positionTexturevertex7}, w, h, w + 1, h + 1);
         this.copyTo(verts, poly);
     }
 
@@ -724,10 +724,10 @@ public class ModelRendererTurbo extends ModelRenderer {
         }
 
         ++rings;
-        QuadPoint[] tempVerts = new QuadPoint[segs * (rings - 1) + 2];
+        Vertex[] tempVerts = new Vertex[segs * (rings - 1) + 2];
         TexturedPolygon[] poly = new TexturedPolygon[segs * rings];
-        tempVerts[0] = new QuadPoint(x, y - r, z, 0.0F, 0.0F);
-        tempVerts[tempVerts.length - 1] = new QuadPoint(x, y + r, z, 0.0F, 0.0F);
+        tempVerts[0] = new Vertex(x, y - r, z, 0.0F, 0.0F);
+        tempVerts[tempVerts.length - 1] = new Vertex(x, y + r, z, 0.0F, 0.0F);
         float uOffs = 1.0F / (this.textureWidth * 10.0F);
         float vOffs = 1.0F / (this.textureHeight * 10.0F);
         float texW = (float)textureW / this.textureWidth - 2.0F * uOffs;
@@ -739,7 +739,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         int currentFace = 0;
 
         int i;
-        QuadPoint[] var28;
+        Vertex[] var28;
         for(i = 1; i < rings; ++i) {
             for(int verts = 0; verts < segs; ++verts) {
                 float curVert = MathHelper.cos(-1.5707964F + (float)Math.PI / (float)rings * (float)i);
@@ -747,13 +747,13 @@ public class ModelRendererTurbo extends ModelRenderer {
                 float xSize = MathHelper.sin((float)Math.PI / (float)segs * (float)verts * 2.0F + (float)Math.PI) * curVert;
                 float zSize = -MathHelper.cos((float)Math.PI / (float)segs * (float)verts * 2.0F + (float)Math.PI) * curVert;
                 int curVert1 = 1 + verts + segs * (i - 1);
-                tempVerts[curVert1] = new QuadPoint(x + xSize * r, y + yHeight * r, z + zSize * r, 0.0F, 0.0F);
+                tempVerts[curVert1] = new Vertex(x + xSize * r, y + yHeight * r, z + zSize * r, 0.0F, 0.0F);
                 if(verts > 0) {
-                    QuadPoint[] verts1;
+                    Vertex[] verts1;
                     if(i == 1) {
-                        verts1 = new QuadPoint[]{tempVerts[curVert1].method_983(startU + segW * (float)verts, startV + segH * (float)i), tempVerts[curVert1 - 1].method_983(startU + segW * (float)(verts - 1), startV + segH * (float)i), tempVerts[0].method_983(startU + segW * (float)(verts - 1), startV), tempVerts[0].method_983(startU + segW + segW * (float)verts, startV)};
+                        verts1 = new Vertex[]{tempVerts[curVert1].remap(startU + segW * (float)verts, startV + segH * (float)i), tempVerts[curVert1 - 1].remap(startU + segW * (float)(verts - 1), startV + segH * (float)i), tempVerts[0].remap(startU + segW * (float)(verts - 1), startV), tempVerts[0].remap(startU + segW + segW * (float)verts, startV)};
                     } else {
-                        verts1 = new QuadPoint[]{tempVerts[curVert1].method_983(startU + segW * (float)verts, startV + segH * (float)i), tempVerts[curVert1 - 1].method_983(startU + segW * (float)(verts - 1), startV + segH * (float)i), tempVerts[curVert1 - 1 - segs].method_983(startU + segW * (float)(verts - 1), startV + segH * (float)(i - 1)), tempVerts[curVert1 - segs].method_983(startU + segW * (float)verts, startV + segH * (float)(i - 1))};
+                        verts1 = new Vertex[]{tempVerts[curVert1].remap(startU + segW * (float)verts, startV + segH * (float)i), tempVerts[curVert1 - 1].remap(startU + segW * (float)(verts - 1), startV + segH * (float)i), tempVerts[curVert1 - 1 - segs].remap(startU + segW * (float)(verts - 1), startV + segH * (float)(i - 1)), tempVerts[curVert1 - segs].remap(startU + segW * (float)verts, startV + segH * (float)(i - 1))};
                     }
 
                     poly[currentFace] = new TexturedPolygon(verts1);
@@ -762,9 +762,9 @@ public class ModelRendererTurbo extends ModelRenderer {
             }
 
             if(i == 1) {
-                var28 = new QuadPoint[]{tempVerts[1].method_983(startU + segW * (float)segs, startV + segH * (float)i), tempVerts[segs].method_983(startU + segW * (float)(segs - 1), startV + segH * (float)i), tempVerts[0].method_983(startU + segW * (float)(segs - 1), startV), tempVerts[0].method_983(startU + segW * (float)segs, startV)};
+                var28 = new Vertex[]{tempVerts[1].remap(startU + segW * (float)segs, startV + segH * (float)i), tempVerts[segs].remap(startU + segW * (float)(segs - 1), startV + segH * (float)i), tempVerts[0].remap(startU + segW * (float)(segs - 1), startV), tempVerts[0].remap(startU + segW * (float)segs, startV)};
             } else {
-                var28 = new QuadPoint[]{tempVerts[1 + segs * (i - 1)].method_983(startU + texW, startV + segH * (float)i), tempVerts[segs * (i - 1) + segs].method_983(startU + texW - segW, startV + segH * (float)i), tempVerts[segs * (i - 1)].method_983(startU + texW - segW, startV + segH * (float)(i - 1)), tempVerts[1 + segs * (i - 1) - segs].method_983(startU + texW, startV + segH * (float)(i - 1))};
+                var28 = new Vertex[]{tempVerts[1 + segs * (i - 1)].remap(startU + texW, startV + segH * (float)i), tempVerts[segs * (i - 1) + segs].remap(startU + texW - segW, startV + segH * (float)i), tempVerts[segs * (i - 1)].remap(startU + texW - segW, startV + segH * (float)(i - 1)), tempVerts[1 + segs * (i - 1) - segs].remap(startU + texW, startV + segH * (float)(i - 1))};
             }
 
             poly[currentFace] = new TexturedPolygon(var28);
@@ -772,11 +772,11 @@ public class ModelRendererTurbo extends ModelRenderer {
         }
 
         for(i = 0; i < segs; ++i) {
-            var28 = new QuadPoint[3];
+            var28 = new Vertex[3];
             int var29 = tempVerts.length - (segs + 1);
-            var28[0] = tempVerts[tempVerts.length - 1].method_983(startU + segW * ((float)i + 0.5F), startV + texH);
-            var28[1] = tempVerts[var29 + i].method_983(startU + segW * (float)i, startV + texH - segH);
-            var28[2] = tempVerts[var29 + (i + 1) % segs].method_983(startU + segW * (float)(i + 1), startV + texH - segH);
+            var28[0] = tempVerts[tempVerts.length - 1].remap(startU + segW * ((float)i + 0.5F), startV + texH);
+            var28[1] = tempVerts[var29 + i].remap(startU + segW * (float)i, startV + texH - segH);
+            var28[2] = tempVerts[var29 + (i + 1) % segs].remap(startU + segW * (float)(i + 1), startV + texH - segH);
             poly[currentFace] = new TexturedPolygon(var28);
             ++currentFace;
         }
@@ -824,7 +824,7 @@ public class ModelRendererTurbo extends ModelRenderer {
             coneBase = false;
         }
 
-        QuadPoint[] tempVerts = new QuadPoint[segments * (!coneBase && !coneTop ? 2 : 1) + 2];
+        Vertex[] tempVerts = new Vertex[segments * (!coneBase && !coneTop ? 2 : 1) + 2];
         TexturedPolygon[] poly = new TexturedPolygon[segments * (!coneBase && !coneTop ? 3 : 2)];
         float xLength = dirSide ? length : 0.0F;
         float yLength = dirTop ? length : 0.0F;
@@ -835,8 +835,8 @@ public class ModelRendererTurbo extends ModelRenderer {
         float xEnd = !dirMirror ? x + xLength : x;
         float yEnd = !dirMirror ? y + yLength : y;
         float zEnd = !dirMirror ? z + zLength : z;
-        tempVerts[0] = new QuadPoint(xStart, yStart, zStart, 0.0F, 0.0F);
-        tempVerts[tempVerts.length - 1] = new QuadPoint(xEnd, yEnd, zEnd, 0.0F, 0.0F);
+        tempVerts[0] = new Vertex(xStart, yStart, zStart, 0.0F, 0.0F);
+        tempVerts[tempVerts.length - 1] = new Vertex(xEnd, yEnd, zEnd, 0.0F, 0.0F);
         float xCur = xStart;
         float yCur = yStart;
         float zCur = zStart;
@@ -854,7 +854,7 @@ public class ModelRendererTurbo extends ModelRenderer {
                 uCircle = xCur + (!dirSide ? uOffset : 0.0F);
                 vCircle = yCur + (!dirTop ? vOffset : 0.0F);
                 uWidth = zCur + (dirSide ? uOffset : (dirTop ? vOffset : 0.0F));
-                tempVerts[1 + vScale + uScale * segments] = new QuadPoint(uCircle, vCircle, uWidth, 0.0F, 0.0F);
+                tempVerts[1 + vScale + uScale * segments] = new Vertex(uCircle, vCircle, uWidth, 0.0F, 0.0F);
             }
 
             xCur = xEnd;
@@ -880,24 +880,24 @@ public class ModelRendererTurbo extends ModelRenderer {
             float vSize = MathHelper.cos((float)Math.PI / (float)segments * (float)index * 2.0F + (!dirTop ? 0.0F : (float)Math.PI)) * (0.5F * vCircle - 2.0F * vOffset);
             float uSize1 = MathHelper.sin((float)Math.PI / (float)segments * (float)index2 * 2.0F + (!dirTop ? 0.0F : (float)Math.PI)) * (0.5F * uCircle - 2.0F * uOffset);
             float vSize1 = MathHelper.cos((float)Math.PI / (float)segments * (float)index2 * 2.0F + (!dirTop ? 0.0F : (float)Math.PI)) * (0.5F * vCircle - 2.0F * vOffset);
-            QuadPoint[] vert = new QuadPoint[]{tempVerts[0].method_983(uStart + 0.5F * uCircle, vStart + 0.5F * vCircle), tempVerts[1 + index2].method_983(uStart + 0.5F * uCircle + uSize1, vStart + 0.5F * vCircle + vSize1), tempVerts[1 + index].method_983(uStart + 0.5F * uCircle + uSize, vStart + 0.5F * vCircle + vSize)};
+            Vertex[] vert = new Vertex[]{tempVerts[0].remap(uStart + 0.5F * uCircle, vStart + 0.5F * vCircle), tempVerts[1 + index2].remap(uStart + 0.5F * uCircle + uSize1, vStart + 0.5F * vCircle + vSize1), tempVerts[1 + index].remap(uStart + 0.5F * uCircle + uSize, vStart + 0.5F * vCircle + vSize)};
             poly[index] = new TexturedPolygon(vert);
             if(this.i ^ this.flip) {
-                poly[index].method_1925();
+                poly[index].flip();
             }
 
             if(!coneBase && !coneTop) {
-                vert = new QuadPoint[]{tempVerts[1 + index].method_983(uStart + uOffset + uWidth * (float)index, vStart + vOffset + vCircle), tempVerts[1 + index2].method_983(uStart + uOffset + uWidth * (float)(index + 1), vStart + vOffset + vCircle), tempVerts[1 + segments + index2].method_983(uStart + uOffset + uWidth * (float)(index + 1), vStart + vOffset + vCircle + vHeight), tempVerts[1 + segments + index].method_983(uStart + uOffset + uWidth * (float)index, vStart + vOffset + vCircle + vHeight)};
+                vert = new Vertex[]{tempVerts[1 + index].remap(uStart + uOffset + uWidth * (float)index, vStart + vOffset + vCircle), tempVerts[1 + index2].remap(uStart + uOffset + uWidth * (float)(index + 1), vStart + vOffset + vCircle), tempVerts[1 + segments + index2].remap(uStart + uOffset + uWidth * (float)(index + 1), vStart + vOffset + vCircle + vHeight), tempVerts[1 + segments + index].remap(uStart + uOffset + uWidth * (float)index, vStart + vOffset + vCircle + vHeight)};
                 poly[index + segments] = new TexturedPolygon(vert);
                 if(this.i ^ this.flip) {
-                    poly[index + segments].method_1925();
+                    poly[index + segments].flip();
                 }
             }
 
-            vert = new QuadPoint[]{tempVerts[tempVerts.length - 1].method_983(uStart + 1.5F * uCircle, vStart + 0.5F * vCircle), tempVerts[tempVerts.length - 2 - index].method_983(uStart + 1.5F * uCircle + uSize1, vStart + 0.5F * vCircle + vSize1), tempVerts[tempVerts.length - (1 + segments) + (segments - index) % segments].method_983(uStart + 1.5F * uCircle + uSize, vStart + 0.5F * vCircle + vSize)};
+            vert = new Vertex[]{tempVerts[tempVerts.length - 1].remap(uStart + 1.5F * uCircle, vStart + 0.5F * vCircle), tempVerts[tempVerts.length - 2 - index].remap(uStart + 1.5F * uCircle + uSize1, vStart + 0.5F * vCircle + vSize1), tempVerts[tempVerts.length - (1 + segments) + (segments - index) % segments].remap(uStart + 1.5F * uCircle + uSize, vStart + 0.5F * vCircle + vSize)};
             poly[poly.length - segments + index] = new TexturedPolygon(vert);
             if(this.i ^ this.flip) {
-                poly[poly.length - segments + index].method_1925();
+                poly[poly.length - segments + index].flip();
             }
         }
 
@@ -911,11 +911,11 @@ public class ModelRendererTurbo extends ModelRenderer {
     public void addModel(String file, Class modelFormat) {
         ModelPoolEntry entry = ModelPool.addFile(file, modelFormat, this.transformGroup, this.textureGroup);
         if(entry != null) {
-            QuadPoint[] verts = (QuadPoint[])Arrays.copyOf(entry.vertices, entry.vertices.length);
+            Vertex[] verts = (Vertex[])Arrays.copyOf(entry.vertices, entry.vertices.length);
             TexturedPolygon[] poly = (TexturedPolygon[])Arrays.copyOf(entry.faces, entry.faces.length);
             if(this.flip) {
                 for(int l = 0; l < this.faces.length; ++l) {
-                    this.faces[l].method_1925();
+                    this.faces[l].flip();
                 }
             }
 
@@ -937,16 +937,16 @@ public class ModelRendererTurbo extends ModelRenderer {
 
     public void doMirror(boolean x, boolean y, boolean z) {
         for(int i = 0; i < this.faces.length; ++i) {
-            QuadPoint[] verts = this.faces[i].quadPoint;
+            Vertex[] verts = this.faces[i].vertices;
 
             for(int j = 0; j < verts.length; ++j) {
-                verts[j].pointVector.x *= (double)(x ? -1 : 1);
-                verts[j].pointVector.y *= (double)(y ? -1 : 1);
-                verts[j].pointVector.z *= (double)(z ? -1 : 1);
+                verts[j].pos.x *= (double)(x ? -1 : 1);
+                verts[j].pos.y *= (double)(y ? -1 : 1);
+                verts[j].pos.z *= (double)(z ? -1 : 1);
             }
 
             if(x ^ y ^ z) {
-                this.faces[i].method_1925();
+                this.faces[i].flip();
             }
         }
 
@@ -961,19 +961,19 @@ public class ModelRendererTurbo extends ModelRenderer {
     }
 
     public void clear() {
-        this.vertices = new QuadPoint[0];
+        this.vertices = new Vertex[0];
         this.faces = new TexturedPolygon[0];
         this.transformGroup.clear();
         this.transformGroup.put("0", new TransformGroupBone(new Bone(0.0F, 0.0F, 0.0F, 0.0F), 1.0D));
         this.currentGroup = (TransformGroup)this.transformGroup.get("0");
     }
 
-    public void copyTo(QuadPoint[] verts, TexturedPolygon[] poly) {
+    public void copyTo(Vertex[] verts, TexturedPolygon[] poly) {
         this.copyTo(verts, poly, true);
     }
 
-    public void copyTo(QuadPoint[] verts, TexturedPolygon[] poly, boolean copyGroup) {
-        this.vertices = (QuadPoint[])Arrays.copyOf(this.vertices, this.vertices.length + verts.length);
+    public void copyTo(Vertex[] verts, TexturedPolygon[] poly, boolean copyGroup) {
+        this.vertices = (Vertex[])Arrays.copyOf(this.vertices, this.vertices.length + verts.length);
         this.faces = (TexturedPolygon[])Arrays.copyOf(this.faces, this.faces.length + poly.length);
 
         int idx;
@@ -993,11 +993,11 @@ public class ModelRendererTurbo extends ModelRenderer {
 
     }
 
-    public void copyTo(QuadPoint[] verts, TexturedQuad[] quad) {
+    public void copyTo(Vertex[] verts, Quad[] quad) {
         TexturedPolygon[] poly = new TexturedPolygon[quad.length];
 
         for(int idx = 0; idx < quad.length; ++idx) {
-            poly[idx] = new TexturedPolygon(quad[idx].quadPoint);
+            poly[idx] = new TexturedPolygon(quad[idx].vertices);
         }
 
         this.copyTo(verts, poly);
@@ -1189,7 +1189,7 @@ public class ModelRendererTurbo extends ModelRenderer {
             this.displayListArray = new int[this.textureGroup.size()];
 
             for(int i = 0; itr.hasNext(); ++i) {
-                this.displayListArray[i] = class_214.method_741(1);
+                this.displayListArray[i] = GlAllocationUtils.generateDisplayLists(1);
                 GL11.glNewList(this.displayListArray[i], GL11.GL_COMPILE);
                 Tessellator tessellator = Tessellator.INSTANCE;
                 TextureGroup usedGroup = (TextureGroup)itr.next();
@@ -1206,7 +1206,7 @@ public class ModelRendererTurbo extends ModelRenderer {
     }
 
     private void compileLegacyDisplayList(float worldScale) {
-        this.displayList = class_214.method_741(1);
+        this.displayList = GlAllocationUtils.generateDisplayLists(1);
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
         Tessellator tessellator = Tessellator.INSTANCE;
 
@@ -1217,7 +1217,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         GL11.glEndList();
     }
 
-    private QuadPoint[] vertices;
+    private Vertex[] vertices;
     private TexturedPolygon[] faces;
     private int textureOffsetX;
     private int textureOffsetY;

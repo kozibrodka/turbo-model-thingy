@@ -1,9 +1,8 @@
 package net.kozibrodka.tmt.TURBO_MODEL_125;
 
-import net.minecraft.util.maths.MathHelper;
-import net.minecraft.util.maths.Vec3f;
-
 import java.util.ArrayList;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class Shape2D {
 
@@ -33,7 +32,7 @@ public class Shape2D {
         PositionTransformVertex[] vertsTop = new PositionTransformVertex[this.coords.size()];
         PositionTransformVertex[] vertsBottom = new PositionTransformVertex[this.coords.size()];
         TexturedPolygon[] poly = new TexturedPolygon[this.coords.size() + 2];
-        Vec3f extrudeVector = Vec3f.method_1293(0.0D, 0.0D, (double)depth);
+        Vec3d extrudeVector = Vec3d.create(0.0D, 0.0D, (double)depth);
         this.setVectorRotations(extrudeVector, rotX, rotY, rotZ);
         if(faceLengths != null && faceLengths.length < this.coords.size()) {
             faceLengths = null;
@@ -50,7 +49,7 @@ public class Shape2D {
             float nextCoord = (float)(idx.uCoord + u) / textureWidth;
             currentLength = (float)(shapeTextureWidth * 2 - idx.uCoord + u) / textureWidth;
             ratioPosition = (float)(idx.vCoord + v) / textureHeight;
-            Vec3f ratioLength = Vec3f.method_1293(idx.xCoord, idx.yCoord, 0.0D);
+            Vec3d ratioLength = Vec3d.create(idx.xCoord, idx.yCoord, 0.0D);
             this.setVectorRotations(ratioLength, rotX, rotY, rotZ);
             verts[currentLengthPosition] = new PositionTransformVertex(x + (float)ratioLength.x, y + (float)ratioLength.y, z + (float)ratioLength.z, nextCoord, ratioPosition);
             verts[currentLengthPosition + this.coords.size()] = new PositionTransformVertex(x + (float)ratioLength.x - (float)extrudeVector.x, y + (float)ratioLength.y - (float)extrudeVector.y, z + (float)ratioLength.z - (float)extrudeVector.z, currentLength, ratioPosition);
@@ -89,7 +88,7 @@ public class Shape2D {
         return new Shape3D(verts, poly);
     }
 
-    protected void setVectorRotations(Vec3f vector, float xRot, float yRot, float zRot) {
+    protected void setVectorRotations(Vec3d vector, float xRot, float yRot, float zRot) {
         float xC = MathHelper.cos(xRot);
         float xS = MathHelper.sin(xRot);
         float yC = MathHelper.cos(yRot);

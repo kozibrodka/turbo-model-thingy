@@ -1,7 +1,7 @@
 package net.kozibrodka.tmt.TURBO_MODEL_173;
 
-import net.minecraft.util.maths.MathHelper;
-import net.minecraft.util.maths.Vec3f;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class TransformGroupBone extends TransformGroup
 {
@@ -28,17 +28,17 @@ public class TransformGroupBone extends TransformGroup
         return angle3d;
     }
 
-    public Vec3f getBaseVector()
+    public Vec3d getBaseVector()
     {
-        return Vec3f.method_1293(baseVector.x, baseVector.y, baseVector.z);
+        return Vec3d.create(baseVector.x, baseVector.y, baseVector.z);
     }
 
-    public Vec3f getTransformVector()
+    public Vec3d getTransformVector()
     {
-        return baseVector.method_1307(attachedBone.getPosition());
+        return baseVector.relativize(attachedBone.getPosition());
     }
 
-    public Vec3f getCurrentVector()
+    public Vec3d getCurrentVector()
     {
         return attachedBone.getPosition();
     }
@@ -55,16 +55,16 @@ public class TransformGroupBone extends TransformGroup
         attachedBone = bone;
     }
 
-    public Vec3f doTransformation(PositionTransformVertex positiontransformvertex)
+    public Vec3d doTransformation(PositionTransformVertex positiontransformvertex)
     {
-        Vec3f vec3d = Vec3f.method_1293(positiontransformvertex.neutralVector.x, positiontransformvertex.neutralVector.y, positiontransformvertex.neutralVector.z);
-        vec3d = getBaseVector().method_1307(vec3d);
+        Vec3d vec3d = Vec3d.create(positiontransformvertex.neutralVector.x, positiontransformvertex.neutralVector.y, positiontransformvertex.neutralVector.z);
+        vec3d = getBaseVector().relativize(vec3d);
         Angle3D angle3d = getTransformAngle();
         setVectorRotations(vec3d, angle3d.angleX, angle3d.angleY, angle3d.angleZ);
         return vec3d;
     }
 
-    protected void setVectorRotations(Vec3f vec3d, float f, float f1, float f2)
+    protected void setVectorRotations(Vec3d vec3d, float f, float f1, float f2)
     {
         float f3 = f;
         float f4 = f1;
@@ -93,7 +93,7 @@ public class TransformGroupBone extends TransformGroup
     }
 
     protected Angle3D baseAngles;
-    protected Vec3f baseVector;
+    protected Vec3d baseVector;
     protected Bone attachedBone;
     protected double weight;
 }

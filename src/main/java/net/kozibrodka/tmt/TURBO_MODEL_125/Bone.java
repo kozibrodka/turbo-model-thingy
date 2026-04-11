@@ -1,12 +1,11 @@
 package net.kozibrodka.tmt.TURBO_MODEL_125;
 
-import net.minecraft.client.model.Cuboid;
-import net.minecraft.util.maths.MathHelper;
-import net.minecraft.util.maths.Vec3f;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class Bone {
 
@@ -14,7 +13,7 @@ public class Bone {
         this.neutralAngles = new Angle3D(x, y, z);
         this.relativeAngles = new Angle3D(0.0F, 0.0F, 0.0F);
         this.absoluteAngles = new Angle3D(0.0F, 0.0F, 0.0F);
-        this.positionVector = Vec3f.method_1293(0.0D, 0.0D, 0.0D);
+        this.positionVector = Vec3d.create(0.0D, 0.0D, 0.0D);
         this.length = l;
         this.childNodes = new ArrayList();
         this.models = new ArrayList();
@@ -23,7 +22,7 @@ public class Bone {
         this.offsetX = 0.0F;
         this.offsetY = 0.0F;
         this.offsetZ = 0.0F;
-        this.positionVector = Vec3f.method_1293(0.0D, 0.0D, 0.0D);
+        this.positionVector = Vec3d.create(0.0D, 0.0D, 0.0D);
     }
 
     public Bone(float xOrig, float yOrig, float zOrig, float xRot, float yRot, float zRot, float l) {
@@ -54,9 +53,9 @@ public class Bone {
         this.resetOffset();
     }
 
-    public Vec3f setOffset(float x, float y, float z) {
+    public Vec3d setOffset(float x, float y, float z) {
         if(this.parentNode != null) {
-            Vec3f vector = this.parentNode.setOffset(x, y, z);
+            Vec3d vector = this.parentNode.setOffset(x, y, z);
             this.offsetX = (float)vector.x;
             this.offsetY = (float)vector.y;
             this.offsetZ = (float)vector.z;
@@ -66,7 +65,7 @@ public class Bone {
             this.offsetY = y;
             this.offsetZ = z;
             this.resetOffset(true);
-            return Vec3f.method_1293((double)x, (double)y, (double)z);
+            return Vec3d.create((double)x, (double)y, (double)z);
         }
     }
 
@@ -76,7 +75,7 @@ public class Bone {
 
     public void resetOffset(boolean doRecursive) {
         if(this.parentNode != null) {
-            this.positionVector = Vec3f.method_1293(0.0D, 0.0D, (double)this.parentNode.length);
+            this.positionVector = Vec3d.create(0.0D, 0.0D, (double)this.parentNode.length);
             this.parentNode.setVectorRotations(this.positionVector);
             this.positionVector.x += this.parentNode.positionVector.x;
             this.positionVector.y += this.parentNode.positionVector.y;
@@ -101,27 +100,27 @@ public class Bone {
         return this.parentNode == null ? this : this.parentNode.getRootParent();
     }
 
-    public void addModel(Cuboid model) {
+    public void addModel(ModelPart model) {
         this.addModel(model, false);
     }
 
-    public void addModel(Cuboid model, boolean inherit) {
+    public void addModel(ModelPart model, boolean inherit) {
         this.addModel(model, 0.0F, 0.0F, 0.0F, inherit);
     }
 
-    public void addModel(Cuboid model, boolean inherit, boolean isUpright) {
+    public void addModel(ModelPart model, boolean inherit, boolean isUpright) {
         this.addModel(model, 0.0F, 0.0F, 0.0F, inherit, isUpright);
     }
 
-    public void addModel(Cuboid model, float x, float y, float z) {
+    public void addModel(ModelPart model, float x, float y, float z) {
         this.addModel(model, x, y, z, false);
     }
 
-    public void addModel(Cuboid model, float x, float y, float z, boolean inherit) {
+    public void addModel(ModelPart model, float x, float y, float z, boolean inherit) {
         this.addModel(model, x, y, z, inherit, false);
     }
 
-    public void addModel(Cuboid model, float x, float y, float z, boolean inherit, boolean isUpright) {
+    public void addModel(ModelPart model, float x, float y, float z, boolean inherit, boolean isUpright) {
         if(inherit) {
             x += this.neutralAngles.angleX + (isUpright ? (float)Math.PI / 2F : 0.0F);
             y += this.neutralAngles.angleY;
@@ -132,7 +131,7 @@ public class Bone {
         this.modelBaseRot.put(model, new Angle3D(x, y, z));
     }
 
-    public void removeModel(Cuboid model) {
+    public void removeModel(ModelPart model) {
         this.models.remove(model);
         this.modelBaseRot.remove(model);
     }
@@ -141,8 +140,8 @@ public class Bone {
         return new Angle3D(this.absoluteAngles.angleX, this.absoluteAngles.angleY, this.absoluteAngles.angleZ);
     }
 
-    public Vec3f getPosition() {
-        return Vec3f.method_1293(this.positionVector.x, this.positionVector.y, this.positionVector.z);
+    public Vec3d getPosition() {
+        return Vec3d.create(this.positionVector.x, this.positionVector.y, this.positionVector.z);
     }
 
     protected void addChildBone(Bone bone) {
@@ -187,14 +186,14 @@ public class Bone {
 
     }
 
-    protected void setVectorRotations(Vec3f vector) {
+    protected void setVectorRotations(Vec3d vector) {
         float x = this.neutralAngles.angleX + this.absoluteAngles.angleX;
         float y = this.neutralAngles.angleY + this.absoluteAngles.angleY;
         float z = this.neutralAngles.angleZ + this.absoluteAngles.angleZ;
         this.setVectorRotations(vector, x, y, z);
     }
 
-    protected void setVectorRotations(Vec3f vector, float xRot, float yRot, float zRot) {
+    protected void setVectorRotations(Vec3d vector, float xRot, float yRot, float zRot) {
         float xC = MathHelper.cos(xRot);
         float xS = MathHelper.sin(xRot);
         float yC = MathHelper.cos(yRot);
@@ -215,15 +214,15 @@ public class Bone {
         vector.z = yz;
     }
 
-    protected void addVector(Vec3f destVec, Vec3f srcVec) {
+    protected void addVector(Vec3d destVec, Vec3d srcVec) {
         destVec.x += srcVec.x;
         destVec.y += srcVec.y;
         destVec.z += srcVec.z;
     }
 
     protected void setVectors() {
-        Vec3f tempVec = Vec3f.method_1293(0.0D, 0.0D, (double)this.length);
-        this.positionVector = Vec3f.method_1293((double)this.offsetX, (double)this.offsetY, (double)this.offsetZ);
+        Vec3d tempVec = Vec3d.create(0.0D, 0.0D, (double)this.length);
+        this.positionVector = Vec3d.create((double)this.offsetX, (double)this.offsetY, (double)this.offsetZ);
         this.addVector(tempVec, this.positionVector);
         this.setVectorRotations(tempVec);
 
@@ -233,9 +232,9 @@ public class Bone {
 
     }
 
-    protected void setVectors(Vec3f vector) {
+    protected void setVectors(Vec3d vector) {
         this.positionVector = vector;
-        Vec3f tempVec = Vec3f.method_1293(0.0D, 0.0D, (double)this.length);
+        Vec3d tempVec = Vec3d.create(0.0D, 0.0D, (double)this.length);
         this.setVectorRotations(tempVec);
         this.addVector(tempVec, vector);
 
@@ -248,14 +247,14 @@ public class Bone {
     public void setAnglesToModels() {
         int i;
         for(i = 0; i < this.models.size(); ++i) {
-            Cuboid currentModel = (Cuboid)this.models.get(i);
+            ModelPart currentModel = (ModelPart)this.models.get(i);
             Angle3D baseAngles = (Angle3D)this.modelBaseRot.get(currentModel);
             currentModel.pitch = baseAngles.angleX + this.absoluteAngles.angleX;
             currentModel.yaw = baseAngles.angleY + this.absoluteAngles.angleY;
             currentModel.roll = baseAngles.angleZ + this.absoluteAngles.angleZ;
-            currentModel.rotationPointX = (float)this.positionVector.x;
-            currentModel.rotationPointY = (float)this.positionVector.y;
-            currentModel.rotationPointZ = (float)this.positionVector.z;
+            currentModel.pivotX = (float)this.positionVector.x;
+            currentModel.pivotY = (float)this.positionVector.y;
+            currentModel.pivotZ = (float)this.positionVector.z;
         }
 
         for(i = 0; i < this.childNodes.size(); ++i) {
@@ -267,7 +266,7 @@ public class Bone {
     protected Angle3D neutralAngles;
     public Angle3D relativeAngles;
     protected Angle3D absoluteAngles;
-    private Vec3f positionVector;
+    private Vec3d positionVector;
     private float length;
     private Bone parentNode;
     protected ArrayList childNodes;

@@ -1,12 +1,11 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.entity.EntityBase;
-import net.minecraft.entity.Living;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 
 public abstract class ModelBase {
     public float onGround;
@@ -17,13 +16,13 @@ public abstract class ModelBase {
     public int textureWidth = 64;
     public int textureHeight = 32;
 
-    public void render(EntityBase var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+    public void render(Entity var1, float var2, float var3, float var4, float var5, float var6, float var7) {
     }
 
     public void setRotationAngles(float var1, float var2, float var3, float var4, float var5, float var6) {
     }
 
-    public void setLivingAnimations(Living var1, float var2, float var3, float var4) {
+    public void setLivingAnimations(LivingEntity var1, float var2, float var3, float var4) {
     }
 
     protected void setTextureOffset(String var1, int var2, int var3) {

@@ -1,12 +1,11 @@
 package net.kozibrodka.tmt.TURBO_MODEL_173;
 
-import net.minecraft.client.render.QuadPoint;
-import net.minecraft.util.maths.MathHelper;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import net.minecraft.client.model.Vertex;
+import net.minecraft.util.math.MathHelper;
 
 public class ModelPoolObjEntry extends ModelPoolEntry
 {
@@ -193,7 +192,7 @@ public class ModelPoolObjEntry extends ModelPoolEntry
                             af3[2] += af5[2];
                             if(j2 < arraylist.size())
                             {
-                                arraylist4.add(((PositionTransformVertex)arraylist.get(j2)).method_983(af4[0], af4[1]));
+                                arraylist4.add(((PositionTransformVertex)arraylist.get(j2)).remap(af4[0], af4[1]));
                             }
                             if(l2 > -1)
                             {
@@ -207,10 +206,10 @@ public class ModelPoolObjEntry extends ModelPoolEntry
                         af3[0] /= f2;
                         af3[1] /= f2;
                         af3[2] /= f2;
-                        QuadPoint apositiontexturevertex[] = new QuadPoint[arraylist4.size()];
+                        Vertex apositiontexturevertex[] = new Vertex[arraylist4.size()];
                         for(int k2 = 0; k2 < arraylist4.size(); k2++)
                         {
-                            apositiontexturevertex[k2] = (QuadPoint)arraylist4.get(k2);
+                            apositiontexturevertex[k2] = (Vertex)arraylist4.get(k2);
                         }
 
                         TexturedPolygon texturedpolygon = new TexturedPolygon(apositiontexturevertex);

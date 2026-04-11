@@ -32,7 +32,7 @@ public class ModelPool
         File file = null;
         for(int i = 0; i < resourceDir.length && (file == null || !file.exists()); i++)
         {
-            String s1 = Minecraft.getWorkingDirectory(resourceDir[i]).getAbsolutePath();
+            String s1 = Minecraft.getApplicationDirectory(resourceDir[i]).getAbsolutePath();
             if(!s1.endsWith("/") || !s1.endsWith("\\"))
             {
                 s1 = (new StringBuilder()).append(s1).append("/").toString();

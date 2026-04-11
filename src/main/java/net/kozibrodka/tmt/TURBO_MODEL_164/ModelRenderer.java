@@ -1,8 +1,8 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
 
-import net.minecraft.class_214;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.util.GlAllocationUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -204,7 +204,7 @@ public class ModelRenderer {
     }
 
     private void compileDisplayList(float var1) {
-        this.displayList = class_214.method_741(1);
+        this.displayList = GlAllocationUtils.generateDisplayLists(1);
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
         Tessellator var2 = Tessellator.INSTANCE;
 

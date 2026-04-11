@@ -1,12 +1,11 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.util.maths.MathHelper;
-import net.minecraft.util.maths.Vec3f;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class ModelPoolObjEntry extends ModelPoolEntry {
     public ModelPoolObjEntry() {
@@ -153,12 +152,12 @@ public class ModelPoolObjEntry extends ModelPoolEntry {
                                     }
                                 }
 
-                                iNormal.add(Vec3f.method_1293((double)poly[0], (double)poly[1], (double)poly[2]));
+                                iNormal.add(Vec3d.create((double)poly[0], (double)poly[1], (double)poly[2]));
                                 normal[0] += poly[0];
                                 normal[1] += poly[1];
                                 normal[2] += poly[2];
                                 if(d < verts.size()) {
-                                    i.add(((PositionTransformVertex)verts.get(d)).method_983(vToArr[0], vToArr[1]));
+                                    i.add(((PositionTransformVertex)verts.get(d)).remap(vToArr[0], vToArr[1]));
                                     if(verts.get(d) instanceof PositionTransformVertex) {
                                         ((PositionTransformVertex)verts.get(d)).addGroup(this.group);
                                     }

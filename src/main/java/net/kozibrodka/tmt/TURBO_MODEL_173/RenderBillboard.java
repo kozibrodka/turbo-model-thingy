@@ -1,6 +1,6 @@
 package net.kozibrodka.tmt.TURBO_MODEL_173;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.entity.Living;
+import net.minecraft.entity.LivingEntity;
 import org.lwjgl.opengl.GL11;
 
 public class RenderBillboard extends LivingEntityRenderer
@@ -31,18 +31,18 @@ public class RenderBillboard extends LivingEntityRenderer
         pitch = f6;
     }
 
-    public void method_822(Living entityliving, double d, double d1, double d2,
+    public void render(LivingEntity entityliving, double d, double d1, double d2,
                                float f, float f1)
     {
         GL11.glPushMatrix();
         GL11.glDisable(2884 /*GL_CULL_FACE*/);
         GL11.glTranslatef((float)d, (float)d1, (float)d2);
         GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
-        method_2027(entityliving.skinUrl, entityliving.getTextured());
-        float f2 = entityliving.field_1013 + (entityliving.field_1012 - entityliving.field_1013) * f1;
-        billboardModel.render(dispatcher.field_2497, dispatcher.field_2498 * pitch, f2, 0.625F);
+        bindDownloadedTexture(entityliving.skinUrl, entityliving.getTexture());
+        float f2 = entityliving.lastBodyYaw + (entityliving.bodyYaw - entityliving.lastBodyYaw) * f1;
+        billboardModel.render(dispatcher.yaw, dispatcher.pitch * pitch, f2, 0.625F);
         float f3 = entityliving.getBrightnessAtEyes(f1);
-        int i = method_817(entityliving, f3, f1);
+        int i = getOverlayColor(entityliving, f3, f1);
         if((i >> 24 & 0xff) > 0 || entityliving.hurtTime > 0 || entityliving.deathTime > 0)
         {
             GL11.glDisable(3553 /*GL_TEXTURE_2D*/);
@@ -53,7 +53,7 @@ public class RenderBillboard extends LivingEntityRenderer
             if(entityliving.hurtTime > 0 || entityliving.deathTime > 0)
             {
                 GL11.glColor4f(f3, 0.0F, 0.0F, 0.4F);
-                billboardModel.render(dispatcher.field_2497, dispatcher.field_2498 / 2.0F, f2, 0.625F);
+                billboardModel.render(dispatcher.yaw, dispatcher.pitch / 2.0F, f2, 0.625F);
             }
             if((i >> 24 & 0xff) > 0)
             {
@@ -62,7 +62,7 @@ public class RenderBillboard extends LivingEntityRenderer
                 float f6 = (float)(i & 0xff) / 255F;
                 float f7 = (float)(i >> 24 & 0xff) / 255F;
                 GL11.glColor4f(f4, f5, f6, f7);
-                billboardModel.render(dispatcher.field_2497, dispatcher.field_2498 / 2.0F, f2, 0.625F);
+                billboardModel.render(dispatcher.yaw, dispatcher.pitch / 2.0F, f2, 0.625F);
             }
             GL11.glDepthFunc(515);
             GL11.glDisable(3042 /*GL_BLEND*/);

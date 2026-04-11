@@ -1,9 +1,9 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.client.render.QuadPoint;
-import net.minecraft.util.maths.Vec3f;
+import net.minecraft.client.model.Vertex;
+import net.minecraft.util.math.Vec3d;
 
-public class PositionTextureVertex extends QuadPoint {
+public class PositionTextureVertex extends Vertex {
     public float texturePositionW;
 
     public PositionTextureVertex(float par1, float par2, float par3, float par4, float par5) {
@@ -11,7 +11,7 @@ public class PositionTextureVertex extends QuadPoint {
     }
 
     public PositionTextureVertex(float var1, float var2, float var3, float var4, float var5, float par6) {
-        this(Vec3f.method_1293((double)var1, (double)var2, (double)var3), var4, var5); //TODO?
+        this(Vec3d.create((double)var1, (double)var2, (double)var3), var4, var5); //TODO?
     }
 
     public PositionTextureVertex func_78240_a(float par1, float par2) {
@@ -32,11 +32,11 @@ public class PositionTextureVertex extends QuadPoint {
         this.texturePositionW = q;
     }
 
-    public PositionTextureVertex(Vec3f par1Vec3, float par2, float par3) {
+    public PositionTextureVertex(Vec3d par1Vec3, float par2, float par3) {
         this(par1Vec3, par2, par3, 1.0F);
     }
 
-    public PositionTextureVertex(Vec3f par1Vec3, float par2, float par3, float par4) {
+    public PositionTextureVertex(Vec3d par1Vec3, float par2, float par3, float par4) {
         super(par1Vec3, par2, par3);
         this.texturePositionW = 1.0F;
         this.texturePositionW = par4;

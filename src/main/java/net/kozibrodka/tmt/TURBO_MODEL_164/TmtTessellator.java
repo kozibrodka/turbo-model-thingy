@@ -9,9 +9,8 @@ import java.util.Arrays;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.class_214;
 import net.minecraft.client.render.Tessellator;
-
+import net.minecraft.client.util.GlAllocationUtils;
 import net.modificationstation.stationapi.mixin.arsenic.client.TessellatorAccessor;
 import org.lwjgl.opengl.ARBBufferObject;
 import org.lwjgl.opengl.GL11;
@@ -28,7 +27,7 @@ public class TmtTessellator  { //TODO doesnt extent
 	public int textureID = 0;
 	private static boolean field_78396_b = false;
 	private static boolean field_78397_c = false;
-	private static ByteBuffer field_78394_d = class_214.method_744(nativeBufferSize * 4); //TODO?
+	private static ByteBuffer field_78394_d = GlAllocationUtils.allocateByteBuffer(nativeBufferSize * 4); //TODO?
 	private static IntBuffer field_78395_e = field_78394_d.asIntBuffer();
 	private static FloatBuffer field_78392_f = field_78394_d.asFloatBuffer();
 	private static ShortBuffer field_78393_g = field_78394_d.asShortBuffer();
@@ -413,7 +412,7 @@ public class TmtTessellator  { //TODO doesnt extent
 		field_78398_a.defaultTexture = true;
 		field_78389_A = field_78397_c && GLContext.getCapabilities().GL_ARB_vertex_buffer_object;
 		if(field_78389_A) {
-			field_78390_B = class_214.method_745(field_78387_D); //TODO?
+			field_78390_B = GlAllocationUtils.allocateIntBuffer(field_78387_D); //TODO?
 			ARBBufferObject.glGenBuffersARB(field_78390_B);
 		}
 

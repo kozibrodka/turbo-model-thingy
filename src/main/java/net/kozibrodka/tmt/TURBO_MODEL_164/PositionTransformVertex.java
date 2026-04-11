@@ -1,13 +1,12 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.util.maths.Vec3f;
-
 import java.util.ArrayList;
+import net.minecraft.util.math.Vec3d;
 
 public class PositionTransformVertex extends PositionTextureVertex {
 
     public PositionTransformVertex(float x, float y, float z, float u, float v) {
-        this(Vec3f.method_1293((double) x, (double) y, (double) z), u, v);
+        this(Vec3d.create((double) x, (double) y, (double) z), u, v);
     }
 
     public PositionTransformVertex(PositionTextureVertex vertex, float u, float v) {
@@ -16,26 +15,26 @@ public class PositionTransformVertex extends PositionTextureVertex {
         if (vertex instanceof PositionTransformVertex) {
             this.neutralVector = ((PositionTransformVertex) vertex).neutralVector;
         } else {
-            this.neutralVector = Vec3f.method_1293(vertex.pointVector.x, vertex.pointVector.y, vertex.pointVector.z);
+            this.neutralVector = Vec3d.create(vertex.pos.x, vertex.pos.y, vertex.pos.z);
         }
 
     }
 
     public PositionTransformVertex(PositionTextureVertex vertex) {
-        this(vertex, vertex.field_1147, vertex.field_1148);
+        this(vertex, vertex.u, vertex.v);
     }
 
-    public PositionTransformVertex(Vec3f vector, float u, float v) {
+    public PositionTransformVertex(Vec3d vector, float u, float v) {
         super(vector, u, v);
         this.transformGroups = new ArrayList();
-        this.neutralVector = Vec3f.method_1293(vector.x, vector.y, vector.z);
+        this.neutralVector = Vec3d.create(vector.x, vector.y, vector.z);
     }
 
     public void setTransformation() {
         if (this.transformGroups.size() == 0) {
-            this.pointVector.x = this.neutralVector.x;
-            this.pointVector.y = this.neutralVector.y;
-            this.pointVector.z = this.neutralVector.z;
+            this.pos.x = this.neutralVector.x;
+            this.pos.y = this.neutralVector.y;
+            this.pos.z = this.neutralVector.z;
         } else {
             double weight = 0.0D;
 
@@ -44,17 +43,17 @@ public class PositionTransformVertex extends PositionTextureVertex {
                 weight += ((TransformGroup) this.transformGroups.get(i)).getWeight();
             }
 
-            this.pointVector.x = 0.0D;
-            this.pointVector.y = 0.0D;
-            this.pointVector.z = 0.0D;
+            this.pos.x = 0.0D;
+            this.pos.y = 0.0D;
+            this.pos.z = 0.0D;
 
             for (i = 0; i < this.transformGroups.size(); ++i) {
                 TransformGroup group = (TransformGroup) this.transformGroups.get(i);
                 double cWeight = group.getWeight() / weight;
-                Vec3f vector = group.doTransformation(this);
-                this.pointVector.x += cWeight * vector.x;
-                this.pointVector.y += cWeight * vector.y;
-                this.pointVector.z += cWeight * vector.z;
+                Vec3d vector = group.doTransformation(this);
+                this.pos.x += cWeight * vector.x;
+                this.pos.y += cWeight * vector.y;
+                this.pos.z += cWeight * vector.z;
             }
 
         }
@@ -67,6 +66,6 @@ public class PositionTransformVertex extends PositionTextureVertex {
     public void removeGroup(TransformGroup group) {
         this.transformGroups.remove(group);
     }
-    public Vec3f neutralVector;
+    public Vec3d neutralVector;
     public ArrayList transformGroups;
 }

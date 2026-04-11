@@ -1,9 +1,9 @@
 package net.kozibrodka.tmt.TURBO_MODEL_173;
 
-import net.minecraft.client.render.QuadPoint;
-import net.minecraft.client.render.entity.model.EntityModelBase;
+import net.minecraft.client.model.Vertex;
+import net.minecraft.client.render.entity.model.EntityModel;
 
-public class ModelBillboard extends EntityModelBase
+public class ModelBillboard extends EntityModel
 {
 
     public ModelBillboard(float f, float f1)
@@ -28,11 +28,11 @@ public class ModelBillboard extends EntityModelBase
             int i1 = k % j;
             float f8 = f7 * (float)i1;
             float f9 = (float)l * f6;
-            QuadPoint apositiontexturevertex[] = {
-                    new QuadPoint(-f / 2.0F, -f1 / 2.0F, 0.0F, f8, f9), new QuadPoint(f / 2.0F, -f1 / 2.0F, 0.0F, f8 + f7, f9), new QuadPoint(f / 2.0F, f1 / 2.0F, 0.0F, f8 + f7, f9 + f6), new QuadPoint(-f / 2.0F, f1 / 2.0F, 0.0F, f8, f9 + f6)
+            Vertex apositiontexturevertex[] = {
+                    new Vertex(-f / 2.0F, -f1 / 2.0F, 0.0F, f8, f9), new Vertex(f / 2.0F, -f1 / 2.0F, 0.0F, f8 + f7, f9), new Vertex(f / 2.0F, f1 / 2.0F, 0.0F, f8 + f7, f9 + f6), new Vertex(-f / 2.0F, f1 / 2.0F, 0.0F, f8, f9 + f6)
             };
             face[k] = new ModelRendererTurbo(0, 0);
-            face[k].rotationPointY += f1 / 2.0F;
+            face[k].pivotY += f1 / 2.0F;
             face[k].addPolygon(apositiontexturevertex);
         }
 

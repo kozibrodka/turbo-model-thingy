@@ -1,9 +1,7 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.client.render.QuadPoint;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.util.maths.Vec3f;
-
+import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 
 
@@ -12,7 +10,7 @@ public class TexturedPolygon {
 	public int nVertices;
 	private boolean invertNormal;
 	private float[] normals;
-	private ArrayList<Vec3f> iNormals;
+	private ArrayList<Vec3d> iNormals;
 
 	public TexturedPolygon(PositionTextureVertex[] apositionTexturevertex) {
 		this.invertNormal = false;
@@ -50,7 +48,7 @@ public class TexturedPolygon {
 		this.vertexPositions = var1;
 	}
 
-	public void setNormals(ArrayList<Vec3f> vec) {
+	public void setNormals(ArrayList<Vec3d> vec) {
 		this.iNormals = vec;
 	}
 
@@ -75,9 +73,9 @@ public class TexturedPolygon {
 					return;
 				}
 
-				Vec3f i = this.vertexPositions[1].pointVector.method_1307(this.vertexPositions[0].pointVector);
-				Vec3f positionTexturevertex = this.vertexPositions[1].pointVector.method_1307(this.vertexPositions[2].pointVector);
-				Vec3f Vec32 = positionTexturevertex.method_1309(i).method_1296();
+				Vec3d i = this.vertexPositions[1].pos.relativize(this.vertexPositions[0].pos);
+				Vec3d positionTexturevertex = this.vertexPositions[1].pos.relativize(this.vertexPositions[2].pos);
+				Vec3d Vec32 = positionTexturevertex.crossProduct(i).normalize();
 				if(this.invertNormal) {
 					tessellator.func_78375_b(-((float)Vec32.x), -((float)Vec32.y), -((float)Vec32.z));
 				} else {
@@ -94,13 +92,13 @@ public class TexturedPolygon {
 
 			if(var6 < this.iNormals.size()) {
 				if(this.invertNormal) {
-					tessellator.func_78375_b(-((float)((Vec3f)this.iNormals.get(var6)).x), -((float)((Vec3f)this.iNormals.get(var6)).y), -((float)((Vec3f)this.iNormals.get(var6)).z));
+					tessellator.func_78375_b(-((float)((Vec3d)this.iNormals.get(var6)).x), -((float)((Vec3d)this.iNormals.get(var6)).y), -((float)((Vec3d)this.iNormals.get(var6)).z));
 				} else {
-					tessellator.func_78375_b((float)((Vec3f)this.iNormals.get(var6)).x, (float)((Vec3f)this.iNormals.get(var6)).y, (float)((Vec3f)this.iNormals.get(var6)).z);
+					tessellator.func_78375_b((float)((Vec3d)this.iNormals.get(var6)).x, (float)((Vec3d)this.iNormals.get(var6)).y, (float)((Vec3d)this.iNormals.get(var6)).z);
 				}
 			}
 
-			tessellator.addVertexWithUVW((double)((float)var7.pointVector.x * f), (double)((float)var7.pointVector.y * f), (double)((float)var7.pointVector.z * f), (double)var7.field_1147, (double)var7.field_1148, (double)var7.texturePositionW);
+			tessellator.addVertexWithUVW((double)((float)var7.pos.x * f), (double)((float)var7.pos.y * f), (double)((float)var7.pos.z * f), (double)var7.u, (double)var7.v, (double)var7.texturePositionW);
 		}
 
 		tessellator.func_78381_a();

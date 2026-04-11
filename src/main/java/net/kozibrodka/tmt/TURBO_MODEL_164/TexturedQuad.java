@@ -3,7 +3,7 @@ package net.kozibrodka.tmt.TURBO_MODEL_164;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.util.maths.Vec3f;
+import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class TexturedQuad {
@@ -39,19 +39,19 @@ public class TexturedQuad {
     }
 
     public void method_1926(Tessellator arg, float f) {
-        Vec3f var3 = this.quadPoint[1].pointVector.method_1307(this.quadPoint[0].pointVector);
-        Vec3f var4 = this.quadPoint[1].pointVector.method_1307(this.quadPoint[2].pointVector);
-        Vec3f var5 = var4.method_1309(var3).method_1296();
-        arg.start();
+        Vec3d var3 = this.quadPoint[1].pos.relativize(this.quadPoint[0].pos);
+        Vec3d var4 = this.quadPoint[1].pos.relativize(this.quadPoint[2].pos);
+        Vec3d var5 = var4.crossProduct(var3).normalize();
+        arg.startQuads();
         if (this.field_2520) {
-            arg.setNormal(-((float)var5.x), -((float)var5.y), -((float)var5.z));
+            arg.normal(-((float)var5.x), -((float)var5.y), -((float)var5.z));
         } else {
-            arg.setNormal((float)var5.x, (float)var5.y, (float)var5.z);
+            arg.normal((float)var5.x, (float)var5.y, (float)var5.z);
         }
 
         for(int var6 = 0; var6 < 4; ++var6) {
             PositionTextureVertex var7 = this.quadPoint[var6];
-            arg.vertex((double)((float)var7.pointVector.x * f), (double)((float)var7.pointVector.y * f), (double)((float)var7.pointVector.z * f), (double)var7.field_1147, (double)var7.field_1148);
+            arg.vertex((double)((float)var7.pos.x * f), (double)((float)var7.pos.y * f), (double)((float)var7.pos.z * f), (double)var7.u, (double)var7.v);
         }
 
         arg.draw();

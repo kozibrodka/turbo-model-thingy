@@ -1,7 +1,7 @@
 package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.minecraft.util.maths.MathHelper;
-import net.minecraft.util.maths.Vec3f;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class TransformGroupBone extends TransformGroup {
 
@@ -24,15 +24,15 @@ public class TransformGroupBone extends TransformGroup {
         return returnAngle;
     }
 
-    public Vec3f getBaseVector() {
-        return Vec3f.method_1293(this.baseVector.x, this.baseVector.y, this.baseVector.z);
+    public Vec3d getBaseVector() {
+        return Vec3d.create(this.baseVector.x, this.baseVector.y, this.baseVector.z);
     }
 
-    public Vec3f getTransformVector() {
-        return this.baseVector.method_1307(this.attachedBone.getPosition());
+    public Vec3d getTransformVector() {
+        return this.baseVector.relativize(this.attachedBone.getPosition());
     }
 
-    public Vec3f getCurrentVector() {
+    public Vec3d getCurrentVector() {
         return this.attachedBone.getPosition();
     }
 
@@ -46,15 +46,15 @@ public class TransformGroupBone extends TransformGroup {
         this.attachedBone = bone;
     }
 
-    public Vec3f doTransformation(PositionTransformVertex vertex) {
-        Vec3f vector = Vec3f.method_1293(vertex.neutralVector.x, vertex.neutralVector.y, vertex.neutralVector.z);
-        vector = this.getBaseVector().method_1307(vector);
+    public Vec3d doTransformation(PositionTransformVertex vertex) {
+        Vec3d vector = Vec3d.create(vertex.neutralVector.x, vertex.neutralVector.y, vertex.neutralVector.z);
+        vector = this.getBaseVector().relativize(vector);
         Angle3D angle = this.getTransformAngle();
         this.setVectorRotations(vector, angle.angleX, angle.angleY, angle.angleZ);
         return vector;
     }
 
-    protected void setVectorRotations(Vec3f vector, float xRot, float yRot, float zRot) {
+    protected void setVectorRotations(Vec3d vector, float xRot, float yRot, float zRot) {
         float xC = MathHelper.cos(xRot);
         float xS = MathHelper.sin(xRot);
         float yC = MathHelper.cos(yRot);
@@ -76,7 +76,7 @@ public class TransformGroupBone extends TransformGroup {
     }
 
     protected Angle3D baseAngles;
-    protected Vec3f baseVector;
+    protected Vec3d baseVector;
     protected Bone attachedBone;
     protected double weight;
 }

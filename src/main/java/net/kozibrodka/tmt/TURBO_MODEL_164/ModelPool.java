@@ -26,7 +26,7 @@ public class ModelPool {
             File modelFile = null;
 
             for(int i = 0; i < resourceDir.length && (modelFile == null || !modelFile.exists()); ++i) {
-                String absPath = Minecraft.getWorkingDirectory(resourceDir[i]).getAbsolutePath();
+                String absPath = Minecraft.getApplicationDirectory(resourceDir[i]).getAbsolutePath();
                 if(!absPath.endsWith("/") || !absPath.endsWith("\\")) {
                     absPath = absPath + "/";
                 }
