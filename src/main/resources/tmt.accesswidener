@@ -1,2 +1,6 @@
 accessWidener v2 named
 
+accessible method net/minecraft/client/render/Tessellator <init> (I)V
+accessible field net/minecraft/client/render/Tessellator useVbo Z
+accessible field net/minecraft/client/render/Tessellator vboBuffer Ljava/nio/IntBuffer;
+accessible field net/minecraft/client/render/Tessellator vboCount I

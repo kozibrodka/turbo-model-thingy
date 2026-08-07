@@ -15,8 +15,8 @@
 
   "license": "CC0-1.0",
   "icon": "assets/tmt/iconTMT.png",
-
   "environment": "*",
+  "accessWidener": "tmt.accesswidener",
   "entrypoints": {
     "stationapi:event_bus": [
 

@@ -13,6 +13,10 @@ import net.minecraft.client.util.GlAllocationUtils;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
+
+
+
+
 public class ModelRendererTurbo extends ModelRenderer {
 	private PositionTextureVertex[] vertices;
 	private TexturedPolygon[] faces;

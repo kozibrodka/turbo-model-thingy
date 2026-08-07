@@ -12,12 +12,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.GlAllocationUtils;
 import org.lwjgl.opengl.ARBBufferObject;
+import org.lwjgl.opengl.ARBVertexBufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 @Environment(EnvType.CLIENT)
-public class TmtTessellator  { //TODO doesnt extent
+public class TmtTessellator extends Tessellator{ //TODO doesnt extent
 	private static int nativeBufferSize = 2097152;
 	private static int trivertsInBuffer = nativeBufferSize / 48 * 6;
 	public static boolean renderingWorldRenderer = false;
@@ -57,8 +58,8 @@ public class TmtTessellator  { //TODO doesnt extent
 	private static int field_78387_D = 10;
 	private int field_78388_E;
 
-	private TmtTessellator(int par1) {
-		//TODO:??
+//	private TmtTessellator2(int par1) {
+//		//TODO:??
 //		this.field_78388_E = par1;
 //		this.field_78394_d = class_214.method_744(par1 * 4);
 //		this.field_78395_e = this.field_78394_d.asIntBuffer();
@@ -70,6 +71,20 @@ public class TmtTessellator  { //TODO doesnt extent
 //			this.vertexBuffers = GLAllocation.createDirectIntBuffer(this.vboCount);
 //			ARBVertexBufferObject.glGenBuffersARB(this.vertexBuffers);
 //		}
+//	}
+
+	private TmtTessellator(int bufferSize) {
+        super(bufferSize);
+        this.field_78388_E = bufferSize;
+		this.field_78394_d = GlAllocationUtils.allocateByteBuffer(bufferSize * 4);
+		this.field_78395_e = this.field_78394_d.asIntBuffer();
+		this.field_78392_f = this.field_78394_d.asFloatBuffer();
+		this.field_78405_h = new int[bufferSize];
+		this.useVbo = field_78397_c && GLContext.getCapabilities().GL_ARB_vertex_buffer_object;
+		if (this.useVbo) {
+			this.vboBuffer = GlAllocationUtils.allocateIntBuffer(this.vboCount);
+			ARBVertexBufferObject.glGenBuffersARB(this.vboBuffer);
+		}
 
 	}
 

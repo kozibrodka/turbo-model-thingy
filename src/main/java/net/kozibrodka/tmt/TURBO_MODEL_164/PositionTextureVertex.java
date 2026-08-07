@@ -11,7 +11,7 @@ public class PositionTextureVertex extends Vertex {
     }
 
     public PositionTextureVertex(float var1, float var2, float var3, float var4, float var5, float par6) {
-        this(Vec3d.create((double)var1, (double)var2, (double)var3), var4, var5); //TODO?
+        this(Vec3d.create(var1, var2, var3), var4, var5); //TODO?
     }
 
     public PositionTextureVertex func_78240_a(float par1, float par2) {

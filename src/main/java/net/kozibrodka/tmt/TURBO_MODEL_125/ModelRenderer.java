@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ModelRenderer {
     public float textureWidth;
     public float textureHeight;

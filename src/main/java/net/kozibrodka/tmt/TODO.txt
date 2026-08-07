@@ -1,0 +1,71 @@
+CO TU SIE DZIEJE...
+//todo na pewno problem z addFlexTrapezoid
+
+porównanie 1.2.5 z 1.6.4(nie działająca)
+
+Angle3D ==
+Bone ==
+Coord2D ==
+ModelBase == Klasa z nowszego minecrafta
+ModelBox == użycie Quad(Vanilla) -> TexturedQuad,  Vertex(Vanilla) -> PositionTextureVertex //todo te klasy są identyczne według mnie nie trzeba tego zmieniać
+ModelPool ==
+ModelPoolEntry ==
+ModelPoolObjEntry ==
+ModelRenderer == Klasa z nowszego minecrafta
+ModelRendererTurbo //todo
+PositionTransformVertex == użycie Vertex(Vanilla) -> PositionTextureVertex //todo bez sensu, można zostawić Vertex
+PositionTextureVertex //todo Zbędna klasa, można Vertex(Vanilla)
+Shape2D ==
+Shape3D ==
+TexturedPolygon == TexturedPolygon extenduje Quad -> 1.6.4 klasa jest independent
+TextureQuad = //todo Zbędna klasa, można Quad(Vanilla)
+TextureGroup == użycie Quad -> TexturePolygon - ciężko powiedzieć, według mnie można zostawić 1.2.5
+TextureOffset ==
+TransformGroup ==
+TransformGroupBone ==
+
+Tesselator zwykły, jest trochę inną klasą w nowszym MC - mam ndzieje, że ujdzie stary.
+TMTTesselator == new 1.6.4 class. - trzeba dodać //todo funkcja draw(), 1.2.5 return void, 1.6.4 return int, zmieniam na VOID - nie widzę nigdzie w kodzie aby z tego INTa cokolwiek korzystało
+PositionTextureVertex - jednak w jednym miejscu potrzebny -> na końcu funkcji draw() w TexturePolygon(1.6.4)
+UPPPs - chyba nowa klasa Vec3 potrzebna?
+
+
+//todo wychodzi na to, że Quad, może zostać, ale Vertex musi iść w chuj. to znaczy nie iść w chuj, bo PositionTextureVertex extenduje Vertex
+
+Niepewne to:
+//todo Quad jednak do zmiany... bo używa Vertex a nie PositionTextureVertex - a może jednak nie....
+
+TexturePolygon - użycie TMTTesselator w 1.6.4, znacząca różnica
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+//TODO: dzieje się to, że prawdopodobnie poprzez błędny DECOMPILE nowszego TMT, są poprzestawiane wartośći w funkcjach (podejrzenia):
+-public void addBox(float x, float y, float z, int w, int h, int d, float expansion, float scale)
+-public void addTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bottomScale, int dir)
+-public void addFlexBox(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, int dir)
+-public void addFlexTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, float fScale1, float fScale2, int dir)
+
+addBox - używane z powodzeniem
+addTrapezoid - używane z powodzeniem
+addFlexBox - używane z powodzeniem - podejrzenie mocne (żaden samolot nie używa tego - BARDZO mocne podejrzenie) + Tiger1 NIE używa.
+addFlexTrapezoid - na pewno zepsute (Tiger2)
+
+coś poza flexTrapez jest jeszcze zepsute - t3485 ma zepsuty kadłub, prawdopodobnie addFlexBox
+
+//TODO być może nawet będzie można zostać na wersji 1.2.5, po naprawie tych funkcji.
+//TODO należy spróbować stworzyć klasy!!!:
+- tmt_125 na starych klasach + jedynie nowe metody w ModelRendererTUrbo, te nowe addRectShape [] ++ , bez dawania nowych klas czy się da.
+- tmt_1337 wszystko na jak najnowszych klasach z naprawionymi metodami.
+- tmt_2000 - cel kopia tmt_264 + naprawienie tylko tych funkcji, zobaczyć co i jak.
+
+-PYTANIE!!!?? - czemu nowe klasy znisczyły model jeszcze bardziej, czy jednak są błędy w tych metodach które "na oko" działają, ale są ukryte bledy które dopierow wychodzą przy dodatkowym funkcjach
+
+
+AKTUALNIE:
+TMT_173,125 - stare dobre sprawdzone.    (125 - daje zglitchowane modele te nowsze)
+TMT_164 - kompletnie broke
+TMT_264 - FUNKCJONALNOŚĆ 1:1 do tmt_125, ale używa nowych klas - ale brak nowych funkcji w ModelRendererTurbo //todo NOWE KLASY = -20/30 fps
+TMT_1337 - używa nowych klas + ma nowe funkcje w ModelRendererTurbo. efekt= model zglitchowane jeszcze bardziej + podwozie też nagle źle
+TMT_2000 - kopia TMT_264
+
+

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class TexturedPolygon extends Quad {
 
+    private boolean invertNormal = false;
+    private float[] normals = new float[0];
+    private ArrayList iNormals = new ArrayList();
+
     public TexturedPolygon(Vertex[] apositionTexturevertex) {
         super(apositionTexturevertex);
     }
@@ -92,7 +96,4 @@ public class TexturedPolygon extends Quad {
         tessellator.draw();
     }
 
-    private boolean invertNormal = false;
-    private float[] normals = new float[0];
-    private ArrayList iNormals = new ArrayList();
 }

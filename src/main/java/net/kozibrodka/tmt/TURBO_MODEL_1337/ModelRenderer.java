@@ -1,5 +1,4 @@
-package net.kozibrodka.tmt.TURBO_MODEL_164;
-
+package net.kozibrodka.tmt.TURBO_MODEL_1337;
 
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.GlAllocationUtils;
@@ -11,17 +10,17 @@ import java.util.List;
 public class ModelRenderer {
     public float textureWidth;
     public float textureHeight;
-    private int textureOffsetX; //a
-    private int textureOffsetY;  //b
-    public float rotationPointX; //c
-    public float rotationPointY; //d
-    public float rotationPointZ; //e
-    public float rotateAngleX;   //f
-    public float rotateAngleY;  //g
-    public float rotateAngleZ; //h
-    private boolean compiled; //j
-    private int displayList; //j
-    public boolean mirror;  //k
+    private int textureOffsetX;
+    private int textureOffsetY;
+    public float rotationPointX;
+    public float rotationPointY;
+    public float rotationPointZ;
+    public float rotateAngleX;
+    public float rotateAngleY;
+    public float rotateAngleZ;
+    private boolean compiled;
+    private int displayList;
+    public boolean mirror;
     public boolean showModel;
     public boolean isHidden;
     public List cubeList;
@@ -207,7 +206,6 @@ public class ModelRenderer {
         this.displayList = GlAllocationUtils.generateDisplayLists(1);
         GL11.glNewList(this.displayList, GL11.GL_COMPILE);
         Tessellator var2 = Tessellator.INSTANCE;
-//        TmtTessellator var2 = TmtTessellator.field_78398_a; //todo - tmt nie jest tutaj używany.
 
         for(int var3 = 0; var3 < this.cubeList.size(); ++var3) {
             ((ModelBox)this.cubeList.get(var3)).render(var2, var1);
