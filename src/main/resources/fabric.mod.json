@@ -26,6 +26,9 @@
     ],
     "stationapi:event_bus_server": [
 
+    ],
+    "gcapi3": [
+      "net.kozibrodka.tmt.mod_tmt"
     ]
   },
   "mixins": [

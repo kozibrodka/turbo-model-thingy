@@ -1,5 +1,6 @@
 package net.kozibrodka.tmt.TURBO_MODEL_1337;
 
+import net.kozibrodka.tmt.mod_tmt;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.GlAllocationUtils;
@@ -268,8 +269,8 @@ public class ModelRendererTurbo extends ModelRenderer {
         float[] v5 = new float[]{f4 + x2, y - y2, f6 + z2};
         float[] v6 = new float[]{f4 + x6, f5 + y6, f6 + z6};
         float[] v7 = new float[]{x - x7, f5 + y7, f6 + z7};
-        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
-        this.addRectShape(v1, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
+        float[] qValues = new float[] {Math.abs((v0[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v0[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v0[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v0[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v0[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v0[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
     }
 
     public void addTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bottomScale, int dir) {
@@ -359,8 +360,8 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v7[2] += bottomScale;
         }
 
-        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
-        this.addRectShape(v1, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
+        float[] qValues = new float[] {Math.abs((v0[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v0[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v0[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v0[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v0[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v0[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
     }
 
     public void addFlexBox(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, int dir) {
@@ -390,8 +391,8 @@ public class ModelRendererTurbo extends ModelRenderer {
         float[] v7 = new float[]{x, f5, f6};
         switch(dir) {
             case 0:
-                v1[0] -= (float)m * bScale4;
-                v1[1] -= bScale1;
+                v0[0] -= (float)m * bScale4; /// poprawka v1 -> v0
+                v0[1] -= bScale1;            /// poprawka v1 -> v0
                 v1[0] += (float)m * bScale3;
                 v1[1] -= bScale1;
                 v2[0] += (float)m * bScale3;
@@ -420,8 +421,8 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v6[2] += bScale4;
                 break;
             case 3:
-                v1[1] -= bScale1;
-                v1[2] -= bScale3;
+                v0[1] -= bScale1; /// poprawka v1 -> v0
+                v0[2] -= bScale3; /// poprawka v1 -> v0
                 v3[1] += bScale2;
                 v3[2] -= bScale3;
                 v4[1] -= bScale1;
@@ -430,8 +431,8 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v7[2] += bScale4;
                 break;
             case 4:
-                v1[0] -= (float)m * bScale1;
-                v1[2] -= bScale3;
+                v0[0] -= (float)m * bScale1; /// poprawka v1 -> v0
+                v0[2] -= bScale3;            /// poprawka v1 -> v0
                 v1[0] += (float)m * bScale2;
                 v1[2] -= bScale3;
                 v4[0] -= (float)m * bScale1;
@@ -449,9 +450,8 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v7[0] -= (float)m * bScale1;
                 v7[2] += bScale4;
         }
-
-        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
-        this.addRectShape(v1, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
+        float[] qValues = new float[] {Math.abs((v0[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v0[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v0[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v0[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v0[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v0[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
     }
 
     public void addFlexTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, float fScale1, float fScale2, int dir) {
@@ -471,6 +471,8 @@ public class ModelRendererTurbo extends ModelRenderer {
             x = v;
         }
 
+        boolean tmt_164 = mod_tmt.tmtGlass.tmt_164;
+
         float[] v0 = new float[]{x, y, z};
         float[] v1 = new float[]{f4, y, z};
         float[] v2 = new float[]{f4, f5, z};
@@ -479,14 +481,21 @@ public class ModelRendererTurbo extends ModelRenderer {
         float[] v5 = new float[]{f4, y, f6};
         float[] v6 = new float[]{f4, f5, f6};
         float[] v7 = new float[]{x, f5, f6};
-        switch(dir) {
-            case 0:
-                v1[1] -= fScale1;
-                v5[1] -= fScale1;
-                v2[1] += fScale2;
-                v6[1] += fScale2;
-                v1[0] -= (float)m * bScale4;
-                v1[1] -= bScale1;
+        switch(dir) { /// TUTAJ POPIERDOLNIA - dla każdego case pierwsze 4 v'ki są różne (nie tylko v0/v1) dla 1.5.2/1.6.4 decompa
+            case 0:     /// Kolejne 8 już klasyczne błędy międze v0/v1  ... /// pierwsze 4 w case0 i case1 mają inczej ustawieone fScale1/2 jeszcze
+                if(tmt_164) {
+                    v1[1] -= fScale1;
+                    v5[1] -= fScale1;
+                    v2[1] += fScale2;
+                    v6[1] += fScale2;
+                }else {
+                    v2[1] -= fScale1;
+                    v3[1] -= fScale2;
+                    v6[1] += fScale2;
+                    v7[1] += fScale1;
+                }
+                v0[0] -= (float)m * bScale4;
+                v0[1] -= bScale1;
                 v1[0] += (float)m * bScale3;
                 v1[1] -= bScale1;
                 v2[0] += (float)m * bScale3;
@@ -495,10 +504,17 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v3[1] += bScale2;
                 break;
             case 1:
-                v1[1] -= fScale1;
-                v5[1] -= fScale1;
-                v2[1] += fScale2;
-                v6[1] += fScale2;
+                if(tmt_164) {
+                    v1[1] -= fScale1;
+                    v5[1] -= fScale1;
+                    v2[1] += fScale2;
+                    v6[1] += fScale2;
+                }else {
+                    v2[1] -= fScale1;
+                    v3[1] -= fScale2;
+                    v6[1] += fScale2;
+                    v7[1] += fScale1;
+                }
                 v4[0] -= (float)m * bScale4;
                 v4[1] -= bScale1;
                 v5[0] += (float)m * bScale3;
@@ -509,10 +525,17 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v7[1] += bScale2;
                 break;
             case 2:
-                v1[2] -= fScale1;
-                v1[2] -= fScale1;
-                v4[2] += fScale2;
-                v5[2] += fScale2;
+                if(tmt_164) {
+                    v0[2] -= fScale1; /// poprawka v1 -> v2, moje przypuszczenie 99%
+                    v1[2] -= fScale1;
+                    v4[2] += fScale2;
+                    v5[2] += fScale2;
+                }else {
+                    v0[2] -= fScale1;
+                    v1[2] -= fScale1;
+                    v4[2] += fScale2;
+                    v5[2] += fScale2;
+                }
                 v1[1] -= bScale1;
                 v1[2] -= bScale3;
                 v2[1] += bScale2;
@@ -523,12 +546,19 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v6[2] += bScale4;
                 break;
             case 3:
-                v1[2] -= fScale1;
-                v1[2] -= fScale1;
-                v4[2] += fScale2;
-                v5[2] += fScale2;
-                v1[1] -= bScale1;
-                v1[2] -= bScale3;
+                if(tmt_164) {
+                    v0[2] -= fScale1; /// poprawka v1 -> v2, moje przypuszczenie 99%
+                    v1[2] -= fScale1;
+                    v4[2] += fScale2;
+                    v5[2] += fScale2;
+                }else {
+                    v0[2] -= fScale1;
+                    v1[2] -= fScale1;
+                    v4[2] += fScale2;
+                    v5[2] += fScale2;
+                }
+                v0[1] -= bScale1;
+                v0[2] -= bScale3;
                 v3[1] += bScale2;
                 v3[2] -= bScale3;
                 v4[1] -= bScale1;
@@ -537,12 +567,19 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v7[2] += bScale4;
                 break;
             case 4:
-                v1[2] -= fScale1;
-                v2[2] -= fScale1;
-                v5[2] += fScale2;
-                v6[2] += fScale2;
-                v1[0] -= (float)m * bScale1;
-                v1[2] -= bScale3;
+                if(tmt_164) {
+                    v1[2] -= fScale1;
+                    v2[2] -= fScale1;
+                    v5[2] += fScale2;
+                    v6[2] += fScale2;
+                }else {
+                    v1[2] -= fScale1;
+                    v2[2] -= fScale1;
+                    v5[2] += fScale2;
+                    v6[2] += fScale2;
+                }
+                v0[0] -= (float)m * bScale1;
+                v0[2] -= bScale3;
                 v1[0] += (float)m * bScale2;
                 v1[2] -= bScale3;
                 v4[0] -= (float)m * bScale1;
@@ -551,10 +588,17 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v5[2] += bScale4;
                 break;
             case 5:
-                v1[2] -= fScale1;
-                v2[2] -= fScale1;
-                v5[2] += fScale2;
-                v6[2] += fScale2;
+                if(tmt_164) {
+                    v1[2] -= fScale1;
+                    v2[2] -= fScale1;
+                    v5[2] += fScale2;
+                    v6[2] += fScale2;
+                }else {
+                    v1[2] -= fScale1;
+                    v2[2] -= fScale1;
+                    v5[2] += fScale2;
+                    v6[2] += fScale2;
+                }
                 v2[0] += (float)m * bScale2;
                 v2[2] -= bScale3;
                 v3[0] -= (float)m * bScale1;
@@ -563,10 +607,10 @@ public class ModelRendererTurbo extends ModelRenderer {
                 v6[2] += bScale4;
                 v7[0] -= (float)m * bScale1;
                 v7[2] += bScale4;
-        }
+        }   /// dużo poprawek na górze
 
-        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
-        this.addRectShape(v1, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
+        float[] qValues = new float[] {Math.abs((v0[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v0[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v0[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v0[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v0[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v0[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+        this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d, qValues);
     }
 
     public void addShape3D(float x, float y, float z, Coord2D[] coordinates, float depth, int shapeTextureWidth, int shapeTextureHeight, int sideTextureWidth, int sideTextureHeight, int direction) {

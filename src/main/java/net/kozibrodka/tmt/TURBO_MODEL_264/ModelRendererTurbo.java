@@ -191,6 +191,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         float[] v6 = new float[]{x1, y1, z1};
         float[] v7 = new float[]{x, y1, z1};
         this.addRectShape(v0, v1, v2, v3, v4, v5, v6, v7, w, h, d);
+        //TODO RÓŻNICA 4,5  - sprawdź nazwy
     }
 
     public void addShapeBox(float x, float y, float z, int w, int h, int d, float scale, float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4, float x5, float y5, float z5, float x6, float y6, float z6, float x7, float y7, float z7) {
@@ -220,7 +221,7 @@ public class ModelRendererTurbo extends ModelRenderer {
         float[] v7 = new float[]{x - x7, f5 + y7, f6 + z7};
 //        float[] qValues = new float[]{Math.abs((v1[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v1[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v1[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v1[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v1[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v1[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
         this.addRectShape(v1, v1, v2, v3, v4, v5, v6, v7, w, h, d);
-        //TODO RÓŻNICA 4
+        //TODO RÓŻNICA 4 - tej klasy nie ma w 1.5.2
     }
 
     public void addTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bottomScale, int dir) {

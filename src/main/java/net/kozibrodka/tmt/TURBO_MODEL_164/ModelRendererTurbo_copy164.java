@@ -1,6 +1,5 @@
-package net.kozibrodka.tmt;
+package net.kozibrodka.tmt.TURBO_MODEL_164;
 
-import net.kozibrodka.tmt.TURBO_MODEL_164.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,9 +12,6 @@ import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.GlAllocationUtils;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
-
-
-import java.util.*;
 
 public class ModelRendererTurbo_copy164 extends ModelRenderer {
 

@@ -45,15 +45,29 @@ TexturePolygon - użycie TMTTesselator w 1.6.4, znacząca różnica
 -public void addFlexBox(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, int dir)
 -public void addFlexTrapezoid(float x, float y, float z, int w, int h, int d, float scale, float bScale1, float bScale2, float bScale3, float bScale4, float fScale1, float fScale2, int dir)
 
+
+do kopiowania:
+float[] qValues = new float[] {Math.abs((v0[0] - v1[0]) / (v3[0] - v2[0])), Math.abs((v0[0] - v1[0]) / (v4[0] - v5[0])), Math.abs((v4[0] - v5[0]) / (v7[0] - v6[0])), Math.abs((v3[0] - v2[0]) / (v7[0] - v6[0])), Math.abs((v0[1] - v3[1]) / (v1[1] - v2[1])), Math.abs((v4[1] - v7[1]) / (v5[1] - v6[1])), Math.abs((v0[1] - v3[1]) / (v4[1] - v7[1])), Math.abs((v1[1] - v2[1]) / (v5[1] - v6[1])), Math.abs((v0[2] - v4[2]) / (v1[2] - v5[2])), Math.abs((v0[2] - v4[2]) / (v3[2] - v7[2])), Math.abs((v1[2] - v5[2]) / (v2[2] - v6[2])), Math.abs((v3[2] - v7[2]) / (v2[2] - v6[2]))};
+
 addBox - używane z powodzeniem
 addTrapezoid - używane z powodzeniem
 addFlexBox - używane z powodzeniem - podejrzenie mocne (żaden samolot nie używa tego - BARDZO mocne podejrzenie) + Tiger1 NIE używa.
 addFlexTrapezoid - na pewno zepsute (Tiger2)
+addShabeBox - ?
+
+ROZWIĄZANIE<> (pierwsze sprawdzenie - 95% pewności)
+addBox: BRAK BŁĘDÓW
+addShapeBox: BŁĄD NA PEWNo - klasy nie ma w 1.5.2, ale da się ustalić na podstawie innych - Mały błąd v0 + [].
+addTrapezoid: BRAK BŁĘDÓW (poza float[] qValues - poprawione)
+addFlexBox: BŁĘDY - poprawione
+addFlexTrapezoid: NAJWIĘCEJ BŁĘDÓW - dwie opcje - poprawione
+
 
 coś poza flexTrapez jest jeszcze zepsute - t3485 ma zepsuty kadłub, prawdopodobnie addFlexBox
 
-//TODO być może nawet będzie można zostać na wersji 1.2.5, po naprawie tych funkcji.
+//TODO być może nawet będzie można zostać na wersji 1.2.5, po naprawie tych funkcji. (funkcje sprawdzaj w Eclipse 1.5.2, trzeba pozmieniać nazwy parametrów dla ułatwienia sprawdzenia)
 //TODO należy spróbować stworzyć klasy!!!:
+- tmt_125 na starych klasach, bez dodatkowych metod, jedynie naprawione funkcje add...(); - czy tyle wystarczy?
 - tmt_125 na starych klasach + jedynie nowe metody w ModelRendererTUrbo, te nowe addRectShape [] ++ , bez dawania nowych klas czy się da.
 - tmt_1337 wszystko na jak najnowszych klasach z naprawionymi metodami.
 - tmt_2000 - cel kopia tmt_264 + naprawienie tylko tych funkcji, zobaczyć co i jak.
@@ -63,9 +77,32 @@ coś poza flexTrapez jest jeszcze zepsute - t3485 ma zepsuty kadłub, prawdopodo
 
 AKTUALNIE:
 TMT_173,125 - stare dobre sprawdzone.    (125 - daje zglitchowane modele te nowsze)
-TMT_164 - kompletnie broke
+TMT_164 - kompletnie broke - pierwsza próba portu sprzed 2 lat.
 TMT_264 - FUNKCJONALNOŚĆ 1:1 do tmt_125, ale używa nowych klas - ale brak nowych funkcji w ModelRendererTurbo //todo NOWE KLASY = -20/30 fps
 TMT_1337 - używa nowych klas + ma nowe funkcje w ModelRendererTurbo. efekt= model zglitchowane jeszcze bardziej + podwozie też nagle źle
-TMT_2000 - kopia TMT_264
+TMT_2000 - kopia TMT_264 + naprawione wszyskie funkcje []v1/v0 itd. - bazuje cały czas na wersji 1.2.5 - //todo DZIAŁA DOBRZE!!!!
 
+//todo TERAZ:
+TMT_1337 - naprawiłem błędy - przetestować (1.6.4 "modern" render)  - DZIAŁA ALE PERFORMANCE SPADA (FPS dropsy)
+TMT_125 - naprawione błędy - najstarsza "nowa" wersja TMT - czy ona da radę z wszystkimi modelami??? - DZIAŁA BEZ PROBLEMÓW
+
+zrób tmt_125 +++ gdzie będzie nowa fukcnja addRectShape itd... zobacz czy bez nowych klas to jest możliwe... - W RAMACH TESTU, nie wiem czy to jest konieczne.
+
+- funkcjonalność tmt_125 na nowych klasach wydaje się nie mieć żadnego sensu, bo wyhcodzi na to samo tylko są LAGI. :)
+
+//TODO !!!!!!!!!! - przecież experimental render 1.6.4 nie jest AKTYWNY ZUPEŁNIE LOOOOOL
+
+
+TMT_173 - stary dla beta 1.7.3
+TMT_164 - zepsute kompletnie, pierwsza nieudana próba portu 1.6
+TMT_125 - standard, port z 1.2.5 + naprawione parametry v1/v0[] itd.
+TMT_264 - stworzone na bazie tmt_125 wprowadzono wszystkie nowe klasy z 1.6, ale bez nowych funkcji w ModelRendererTurbo i bez naprawy parametrów (w praktyce stare tmt_125 z gorszą optymalizacją)
+TMT_2000 - stworzone na bazie tmt_264 naprawia wszystkie parametry, czyli nowe tmt_125 z gorszą optymalizacją (z naprawioną wieżyczką)
+TMT_1337 - Wersja z mc 1.6 - Wszystkie nowe klasy, naprawione parametry + nowe funkcje w ModelRendererTurbo. Działa ale Spadają FPS mocno.
+TMT_2125 - kopia tmt_125 z dodanymi nowymi funkcjami w ModelRendererTurbo ale ba bazie starych klas - ZEPSUTE tekstury "pocięte", ale sam model prawidłowo + jebie optymalizacje
+
+
+//todo PODSUMOWANIE:
+- Wprowadzenie nowych zarówno nowych Klas (z nowszego MC + TmtTesselator, TmtVertex itd.) jak i Metod w ModelRendererTurbo (float[] qValues) tragicznie pogarsza optymalizacje, najgorzej chyba TMT_2125, na drugim miejscu TMT_1337
+- Standardowe TMT_125 z naprawionymi parametrami (v0[] -> v1[]) wydaje się działać dobrze i może renderować każdy model, mimo starszej architektury.
 

@@ -96,6 +96,18 @@ dependencies {
 //	modImplementation("net.glasslauncher:HowManyItems-Fabric-Unofficial:${project.howmanyitems_version}") {
 //		transitive false
 //	}
+
+	modImplementation "net.modificationstation:StationAPI:${project.stapi_version}"
+
+	modImplementation("net.glasslauncher.mods:ModMenu:${project.modmenu_version}") {
+		transitive = false
+	}
+	modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.gcapi_version}") {
+		transitive = false
+	}
+	modImplementation("net.glasslauncher.mods:glass-networking:${project.glass_networking_version}") {
+		transitive = false
+	}
 }
 
 processResources {
