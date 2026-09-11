@@ -106,3 +106,6 @@ TMT_2125 - kopia tmt_125 z dodanymi nowymi funkcjami w ModelRendererTurbo ale ba
 - Wprowadzenie nowych zarówno nowych Klas (z nowszego MC + TmtTesselator, TmtVertex itd.) jak i Metod w ModelRendererTurbo (float[] qValues) tragicznie pogarsza optymalizacje, najgorzej chyba TMT_2125, na drugim miejscu TMT_1337
 - Standardowe TMT_125 z naprawionymi parametrami (v0[] -> v1[]) wydaje się działać dobrze i może renderować każdy model, mimo starszej architektury.
 
+- Zmieniam nazwe nieprzydatnych packagów na dopiske _dev
+- Czy ta opcja w configu jest w ogóle sens aby ją zostawiać? chyba ten eksperyment nietrafiony zupełnie.
+

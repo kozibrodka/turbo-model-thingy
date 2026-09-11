@@ -4,6 +4,6 @@ import net.glasslauncher.mods.gcapi3.api.ConfigEntry;
 
 public class TmtConfig {
 
-    @ConfigEntry(name = "Enable Experimental 164 render")
+    @ConfigEntry(name = "Enable Experimental 164 render", description = "that's redundant, flexTrapezoid will be deformed")
     public Boolean tmt_164 = false;
 }
